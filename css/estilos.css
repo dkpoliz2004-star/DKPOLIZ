@@ -232,3 +232,16 @@ footer {
     max-width: 100%;
   }
 }
+/* --- NAV --- */
+nav a {
+  color: #fff;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+/* Color visible en hover (gris claro) */
+nav a:hover {
+  color: #ccc;
+}
