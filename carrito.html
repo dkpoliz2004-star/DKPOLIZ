@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito - DK Poliz</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header>
+    <h1>Carrito DK Poliz</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Productos en el Carrito</h2>
+    <div id="carrito-lista"></div>
+    <button id="vaciar-carrito">Vaciar Carrito</button>
+  </section>
+
+  <script src="js/script.js"></script>
+  <script>
+    const carritoLista = document.getElementById("carrito-lista");
+    const vaciarCarritoBtn = document.getElementById("vaciar-carrito");
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    function renderCarrito() {
+      carritoLista.innerHTML = "";
+      if(carrito.length === 0){
+        carritoLista.innerHTML = "<p>El carrito está vacío</p>";
+        return;
+      }
+      carrito.forEach((prod, index)=>{
+        const div = document.createElement("div");
+        div.className = "producto";
+        div.innerHTML = `
+          <h3>${prod.nombre}</h3>
+          <p>Precio: $${prod.precio}</p>
+          <p>Categoria: ${prod.categoria} | Talla: ${prod.talla} | Color: ${prod.color}</p>
+          <img src="${prod.imagen}" alt="${prod.nombre}" width="150">
+          <button onclick="eliminarDelCarrito(${index})">Eliminar</button>
+        `;
+        carritoLista.appendChild(div);
+      });
+    }
+
+    function eliminarDelCarrito(index){
+      carrito.splice(index,1);
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      renderCarrito();
+    }
+
+    vaciarCarritoBtn.addEventListener("click",()=>{
+      carrito = [];
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      renderCarrito();
+    });
+
+    renderCarrito();
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Administrador - DK Poliz</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<script>
+  if(localStorage.getItem("adminLogged") !== "true") {
+    alert("Debes iniciar sesión primero.");
+    window.location.href = "login.html";
+  }
+</script>
+
+<h1>Panel Administrador - DK Poliz</h1>
+
+<section id="gestionar-productos">
+  <h2>Productos</h2>
+  <form id="form-producto">
+    <input type="text" id="nombre" placeholder="Nombre del producto" required>
+    <input type="number" id="precio" placeholder="Precio" required>
+    <input type="text" id="categoria" placeholder="Categoría (Camisa/Buzo/Saco)" required>
+    <input type="text" id="talla" placeholder="Talla (S,M,L,XL)" required>
+    <input type="text" id="color" placeholder="Color" required>
+    <input type="url" id="imagen" placeholder="URL de imagen" required>
+    <button type="submit">Agregar Producto</button>
+  </form>
+  <div id="lista-admin-productos"></div>
+</section>
+
+<section id="gestionar-promo">
+  <h2>Promo del Día</h2>
+  <form id="form-promo">
+    <input type="text" id="promo-nombre" placeholder="Nombre del producto" required>
+    <button type="submit">Actualizar Promo</button>
+  </form>
+  <div id="promo-admin"></div>
+</section>
+
+<script src="js/script.js"></script>
+</body>
+</html>

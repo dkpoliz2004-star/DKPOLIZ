@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Administrador - DK Poliz</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <div class="login-container">
+    <h1>Administrador</h1>
+    <input type="text" id="usuario" placeholder="Usuario">
+    <input type="password" id="clave" placeholder="Contraseña">
+    <button onclick="login()">Ingresar</button>
+    <p id="error" class="error"></p>
+    <a href="index.html" class="volver">← Volver a la página principal</a>
+  </div>
+
+  <script>
+    function login() {
+      const usuario = document.getElementById("usuario").value.trim();
+      const clave = document.getElementById("clave").value.trim();
+      const error = document.getElementById("error");
+
+      const adminUser = "AdminDK";
+      const adminPass = "dkpoliz123*";
+
+      if (usuario === adminUser && clave === adminPass) {
+        localStorage.setItem("adminLogged", "true");
+        window.location.href = "admin.html";
+      } else {
+        error.textContent = "Usuario o contraseña incorrectos.";
+      }
+    }
+  </script>
+</body>
+</html>
