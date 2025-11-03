@@ -1,83 +1,327 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrito - DK poliz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    #qr-container {
-      display: none;
-      margin-top: 15px;
-      text-align: center;
-    }
-    #qr-container img {
-      width: 200px;
-      margin: 10px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-    #comprobante-container {
-      display: none;
-      margin-top: 15px;
-      text-align: center;
-    }
-    input[type="file"] {
-      margin-top: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito - DK POLIZ | Tu Orden Street</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* --- AJUSTES GENERALES --- */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9)),
+                url('img/fondo-urbano.jpg') no-repeat center center fixed; /* Fondo Urbano consistente */
+            background-size: cover;
+            color: #f0f0f0; /* Gris claro para el texto general */
+            padding-bottom: 70px;
+        }
+
+        /* --- HEADER (Copiado de index.html) --- */
+        header {
+            background: #000; 
+            padding: 18px 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+            border-bottom: 2px solid #FF0000;
+        }
+
+        header h1 {
+            color: #FF0000;
+            font-size: 38px; /* Más grande */
+            margin: 0;
+            letter-spacing: 4px; /* Mayor espaciado */
+            text-transform: uppercase;
+            font-weight: 900; 
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+
+        nav {
+            margin-top: 15px;
+            border-top: 1px dashed #333;
+            padding-top: 10px;
+        }
+
+        nav a {
+            color: #ddd; 
+            text-decoration: none;
+            margin: 0 18px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        nav a:hover {
+            color: #FF0000;
+            text-shadow: 0 0 8px #FF0000;
+        }
+
+        /* --- SECCIÓN PRINCIPAL (CARRITO) --- */
+        section {
+            background: rgba(17, 17, 17, 0.9); /* Fondo más oscuro */
+            backdrop-filter: blur(5px);
+            border: 3px solid rgba(255, 0, 0, 0.5); /* Borde más grueso */
+            border-radius: 20px;
+            padding: 2.5rem; /* Más espacio */
+            margin: 40px auto;
+            max-width: 900px;
+            width: 90%;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); /* Sombra más intensa */
+        }
+
+        section h2 {
+            color: #FF0000;
+            font-size: 36px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-align: center;
+            text-shadow: 2px 2px 0 #000, 4px 4px 0 #111; /* Efecto 3D de Graffiti */
+        }
+
+        /* Ítems del Carrito */
+        #cart-list {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+
+        #cart-list li {
+            background: #000; /* Fondo negro puro */
+            border: 2px solid #FF0000; /* Borde rojo neón */
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            color: #ddd;
+            transition: all 0.3s;
+        }
+
+        #cart-list li:hover {
+            background: #000;
+            border-color: #fff; /* Borde blanco al pasar el ratón */
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        }
+
+        #cart-list img {
+            width: 70px; /* Un poco más grande */
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid #FF0000; /* Borde de la imagen */
+        }
+
+        #cart-list button {
+            /* Estilo del botón rojo intenso */
+            background: linear-gradient(145deg, #ff0000, #cc0000);
+            color: #000;
+            border: 2px solid #FF0000;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        /* Total del Carrito */
+        #cart-total {
+            font-size: 30px; /* Más grande */
+            font-weight: 900;
+            color: #FF0000;
+            text-align: right; /* Alineación a la derecha */
+            margin: 30px 0 40px;
+            padding: 20px;
+            background: #000;
+            border-radius: 10px;
+            border: 3px solid #FF0000;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 1);
+        }
+
+        /* Mensajes informativos (Nequi, Domicilios) */
+        section p {
+            color: #ff0000;
+            background: #000;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.6;
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            margin: 15px 0;
+        }
+
+        /* Selector de Pago */
+        #metodo-pago-container {
+            margin: 40px 0 20px;
+            text-align: center;
+        }
+
+        #metodo-pago-container label {
+            color: #fff; /* Blanco para contraste */
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px #FF0000;
+        }
+
+        #metodo-pago {
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid #FF0000;
+            background: #000;
+            color: #ff0000;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            transition: all 0.3s;
+        }
+
+        /* Contenedor QR */
+        #qr-container {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background: #000;
+            border-radius: 15px;
+            border: 3px solid #FF0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+
+        #qr-container p {
+            color: #fff;
+            font-weight: 900;
+            font-size: 20px;
+            margin-bottom: 15px;
+            background: none;
+            border: none;
+            padding: 0;
+            text-shadow: 0 0 10px #FF0000;
+        }
+
+        #qr-container img {
+            width: 280px; /* Un poco más grande */
+            max-width: 100%;
+            margin: 10px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            border: 4px solid #FF0000;
+        }
+
+        /* Botón de Checkout por WhatsApp (Estilo uniforme) */
+        .btn-whatsapp {
+            background: linear-gradient(145deg, #ff0000, #cc0000);
+            color: #000;
+            padding: 15px 40px;
+            border: 3px solid #FF0000;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+        }
+
+        .btn-whatsapp:hover {
+            background: linear-gradient(145deg, #cc0000, #990000);
+            box-shadow: 0 0 35px rgba(255, 0, 0, 1.0);
+            transform: scale(1.05);
+        }
+
+        /* --- FOOTER (Copiado de index.html) --- */
+        footer {
+            background: #000;
+            text-align: center;
+            padding: 20px;
+            color: #666; 
+            font-size: 12px;
+            border-top: 3px solid #111;
+            margin-top: 80px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Media Queries Ajustadas */
+        @media (max-width: 768px) {
+             #cart-total {
+                 font-size: 24px;
+                 text-align: center;
+             }
+             #qr-container img {
+                width: 220px;
+             }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1> dk poliz </h1>
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a href="sobre-nosotros.html">Sobre Nosotros</a>
-      <a href="contacto.html">Contáctanos</a>
-      <a href="carrito.html">Carrito 🛒 (<span id="cart-count">0</span>)</a>
-    </nav>
-  </header>
+    <header>
+        <h1>DK POLIZ</h1>
+        <nav>
+            <a href="index.html">INICIO</a>
+            <a href="sobre-nosotros.html">NOSOTROS</a>
+            <a href="contacto.html">CONTACTO</a>
+            <a href="carrito.html">CARRITO 🛒 (<span id="cart-count">0</span>)</a>
+            <a href="login.html" class="admin-link" title="Acceso administrador">ADMINISTRADOR 🔑</a> 
+        </nav>
+    </header>
 
-  <section id="carrito">
-  <h2>Carrito de Compras</h2>
-  <ul id="cart-list"></ul>
-  <p id="cart-total">Total: $0</p>
+    <section id="carrito">
+        <h2>🛒 TU ORDEN EN LA CALLE</h2>
+        <ul id="cart-list">
+            </ul>
+        <p id="cart-total">TOTAL: $0</p>
 
-  <!-- Texto estático con información de pago -->
-  <p style="margin:10px 0; padding:10px; background-color:#f5f5f5; border-radius:8px; font-weight:bold; text-align:center;">
-    Puedes realizar el pago por medios electrónicos: Nequi o Daviplata al número <strong>3005970933</strong> o usando nuestro código QR.
-  </p>
+        <p>
+            📱 **PAGO FÁCIL Y RÁPIDO:** Puedes pagar por **Nequi** o **Daviplata** al número **3005970933** o usando nuestro código QR.
+        </p>
 
-  <p style="margin:10px 0; padding:10px; background-color:#f5f5f5; border-radius:8px; font-weight:bold; text-align:center;">
-    Nota: Recuerda que hacemos domicilios en todo Bogotá y este tiene un costo adicional dependiendo tu zona.
-  </p>
+        <p>
+            🚚 **ENTREGA EN BOGOTÁ:** Hacemos domicilios con costo adicional según tu zona. ¡Consulta al finalizar el pedido!
+        </p>
 
-  <div id="metodo-pago-container" style="margin-top: 15px;">
-    <label for="metodo-pago"><strong>Método de pago:</strong></label><br>
-    <select id="metodo-pago" onchange="mostrarQR()" style="padding: 5px; border-radius: 5px; margin-top: 5px;">
-      <option value="">Seleccione un método</option>
-      <option value="Nequi">💜 Nequi</option>
-      <option value="Daviplata">❤️ Daviplata</option>
-      <option value="Contraentrega">💵 Contraentrega</option>
-    </select>
-  </div>
+        <div id="metodo-pago-container">
+            <label for="metodo-pago">SELECCIONA TU MÉTODO DE PAGO:</label>
+            <select id="metodo-pago" onchange="mostrarQR()">
+                <option value="">Seleccione un método</option>
+                <option value="Nequi">💜 Nequi</option>
+                <option value="Daviplata">❤️ Daviplata</option>
+                <option value="Contraentrega">💵 Contraentrega</option>
+            </select>
+        </div>
 
-  <!-- QRs -->
-  <div id="qr-container">
-    <p><strong>Escanea el código QR para realizar el pago:</strong></p>
-    <img id="qr-nequi" src="img/qr-nequi.png" alt="QR Nequi" style="display:none;">
-    <img id="qr-daviplata" src="img/qr-daviplata.png" alt="QR Daviplata" style="display:none;">
-  </div>
+        <div id="qr-container">
+            <p>ESCANEA EL CÓDIGO QR PARA PAGAR Y FINALIZAR LA ORDEN:</p>
+            <img id="qr-nequi" src="img/qr-nequi.png" alt="QR Nequi" style="display:none;">
+            <img id="qr-daviplata" src="img/qr-daviplata.png" alt="QR Daviplata" style="display:none;">
+        </div>
 
-  <button class="btn-whatsapp" onclick="checkout()" style="margin-top: 20px;">✅ Hacer pedido</button>
-</section>
+        <div style="text-align: center; margin-top: 40px;">
+            <button class="btn-whatsapp" onclick="checkout()">✅ HACER PEDIDO POR WHATSAPP</button>
+        </div>
+    </section>
 
+    <footer>
+        <p>&copy; 2025 DK POLIZ - STYLE & ATTITUDE - TODOS LOS DERECHOS RESERVADOS</p>
+    </footer>
 
-  <footer>
-    <p>&copy; 2025 DK POLIZ - Todos los derechos reservados</p>
-  </footer>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,120 +1,149 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Administrador - DK Poliz</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #000000, #1a1a1a);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Admin - DK Poliz | Restricted Access</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+    <style>
+        /* Paleta: Negro (#000), Gris Oscuro (#111), Rojo Neón (#FF0000) */
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            /* Fondo oscuro y dramático */
+            background: linear-gradient(135deg, #000000 0%, #111111 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #f0f0f0;
+        }
 
-    .login-container {
-      background: #111;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
-      width: 350px;
-      padding: 30px;
-      text-align: center;
-    }
+        .login-container {
+            /* Tarjeta de Acceso */
+            background: #000;
+            border-radius: 15px;
+            /* Sombra y borde neón para el efecto "caja de terminal" */
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
+            border: 3px solid #FF0000;
+            width: 350px;
+            padding: 40px; /* Más padding */
+            text-align: center;
+        }
 
-    .login-container h1 {
-      color: #e50914;
-      margin-bottom: 25px;
-      font-size: 28px;
-      letter-spacing: 1px;
-    }
+        .login-container h1 {
+            color: #FF0000;
+            margin-bottom: 30px;
+            font-size: 32px; /* Más grande */
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.9);
+        }
 
-    .login-container input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      background: #222;
-      color: white;
-    }
+        .login-container input {
+            width: 100%;
+            padding: 15px; /* Más padding en inputs */
+            margin: 15px 0;
+            border: 2px solid #FF0000; /* Borde rojo neón */
+            border-radius: 10px;
+            font-size: 16px;
+            background: #111; /* Fondo oscuro */
+            color: #FF0000; /* Color de texto neón */
+            transition: 0.3s;
+        }
 
-    .login-container input::placeholder {
-      color: #aaa;
-    }
+        .login-container input:focus {
+            outline: none;
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 1.0);
+        }
 
-    .login-container button {
-      width: 100%;
-      padding: 12px;
-      background-color: #e50914;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        .login-container input::placeholder {
+            color: #888;
+        }
 
-    .login-container button:hover {
-      background-color: #b00610;
-    }
+        .login-container button {
+            width: 100%;
+            padding: 15px;
+            /* Botón con el gradiente rojo de las otras páginas */
+            background: linear-gradient(145deg, #ff0000, #cc0000);
+            color: #000;
+            border: 2px solid #FF0000;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            margin-top: 10px;
+        }
 
-    .error {
-      color: #ff4c4c;
-      font-size: 14px;
-      margin-top: 10px;
-    }
+        .login-container button:hover {
+            background: linear-gradient(145deg, #cc0000, #990000);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 1.0);
+            transform: translateY(-2px);
+        }
 
-    .volver {
-      display: inline-block;
-      margin-top: 15px;
-      color: #888;
-      text-decoration: none;
-      font-size: 14px;
-    }
+        .error {
+            color: #ff4c4c;
+            font-size: 14px;
+            margin-top: 15px;
+            text-shadow: 0 0 5px rgba(255, 76, 76, 0.8);
+            font-weight: 700;
+        }
 
-    .volver:hover {
-      color: #e50914;
-    }
-  </style>
+        .volver {
+            display: inline-block;
+            margin-top: 25px;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .volver:hover {
+            color: #FF0000;
+            text-shadow: 0 0 8px #FF0000;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="login-container">
-    <h1>DK Poliz - Admin</h1>
-    <input type="text" id="usuario" placeholder="Usuario" />
-    <input type="password" id="clave" placeholder="Contraseña" />
-    <button onclick="login()">Ingresar</button>
-    <p id="error" class="error"></p>
-    <a href="index.html" class="volver">← Volver a la página principal</a>
-  </div>
+    <div class="login-container">
+        <h1>ACCESO ADMIN 🔒</h1>
+        <input type="text" id="usuario" placeholder="Usuario" />
+        <input type="password" id="clave" placeholder="Contraseña" />
+        <button onclick="login()">ACCEDER AL SISTEMA</button>
+        <p id="error" class="error"></p>
+        <a href="index.html" class="volver">← Volver a la calle</a>
+    </div>
 
-  <script>
-    function login() {
-      const usuario = document.getElementById("usuario").value.trim();
-      const clave = document.getElementById("clave").value.trim();
-      const error = document.getElementById("error");
+    <script>
+        function login() {
+            const usuario = document.getElementById("usuario").value.trim();
+            const clave = document.getElementById("clave").value.trim();
+            const error = document.getElementById("error");
 
-      // Credenciales DK Poliz
-      const adminUser = "AdminDK";
-      const adminPass = "dkpoliz123*";
+            // Credenciales DK Poliz
+            const adminUser = "AdminDK";
+            const adminPass = "dkpoliz123*";
 
-      if (usuario === adminUser && clave === adminPass) {
-        localStorage.setItem("adminLogged", "true");
-        window.location.href = "admin.html"; // Redirige al panel
-      } else {
-        error.textContent = "Usuario o contraseña incorrectos.";
-      }
-    }
+            if (usuario === adminUser && clave === adminPass) {
+                localStorage.setItem("adminLogged", "true");
+                window.location.href = "admin.html"; // Redirige al panel
+            } else {
+                error.textContent = "Acceso denegado. Credenciales incorrectas.";
+            }
+        }
 
-    // Permitir login con Enter
-    document.addEventListener("keypress", function(e) {
-      if(e.key === "Enter") login();
-    });
-  </script>
+        // Permitir login con Enter
+        document.addEventListener("keypress", function(e) {
+            if(e.key === "Enter") login();
+        });
+    </script>
 </body>
 </html>

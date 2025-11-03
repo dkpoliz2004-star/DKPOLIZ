@@ -1,70 +1,304 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contáctanos - Frutos del Paraíso</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctanos - DK POLIZ | Conexión Street</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* --- ESTILOS GENERALES (Armonía con index.html) --- */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9)),
+                url('img/fondo-urbano.jpg') no-repeat center center fixed; /* Fondo Consistente */
+            background-size: cover;
+            color: #f0f0f0; 
+            padding-bottom: 70px;
+        }
+
+        /* --- HEADER (Copiado de index.html) --- */
+        header {
+            background: #000; 
+            padding: 18px 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+            border-bottom: 2px solid #FF0000;
+        }
+
+        header h1 {
+            color: #FF0000;
+            font-size: 38px;
+            margin: 0;
+            letter-spacing: 4px; 
+            text-transform: uppercase;
+            font-weight: 900; 
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+
+        nav {
+            margin-top: 15px;
+            border-top: 1px dashed #333;
+            padding-top: 10px;
+        }
+
+        nav a {
+            color: #ddd; 
+            text-decoration: none;
+            margin: 0 18px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        nav a:hover {
+            color: #FF0000;
+            text-shadow: 0 0 8px #FF0000;
+        }
+        
+        /* --- SECCIÓN CONTACTO Y UBICACIÓN --- */
+        #contacto, #ubicacion {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #FF0000;
+            font-size: 32px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            font-weight: 900;
+            text-shadow: 2px 2px 0 #000, 4px 4px 0 #111; /* Efecto 3D */
+        }
+        
+        h3 {
+            color: #ff0000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 40px;
+            font-size: 24px;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+        }
+
+        /* Botón WhatsApp */
+        .btn-whatsapp {
+            display: inline-block; 
+            padding: 15px 40px; 
+            background: #25D366; /* Verde WhatsApp */
+            color: #000; 
+            border: 2px solid #128C7E; 
+            border-radius: 10px; 
+            font-size: 18px; 
+            font-weight: 900;
+            text-decoration: none; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            transition: all 0.3s; 
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.7);
+            margin: 30px 0;
+        }
+        
+        .btn-whatsapp:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(37, 211, 102, 1.0);
+        }
+
+        /* Redes Sociales Card */
+        .social-card {
+            margin: 40px auto; 
+            padding: 30px; 
+            background: #111; /* Gris oscuro */
+            border-radius: 15px; 
+            border: 2px solid rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            text-align: left;
+        }
+        
+        .social-card p {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .social-card a {
+            color: #ff0000; 
+            text-decoration: none; 
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        .social-card a:hover {
+            color: #fff;
+            text-shadow: 0 0 5px #ff0000;
+        }
+        
+        /* Formulario de Contacto (Inputs y Textarea) */
+        .contact-form input, 
+        .contact-form textarea {
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0; 
+            /* Borde y fondo oscuro con color de texto de acento */
+            border: 2px solid rgba(255,0,0,0.5); 
+            border-radius: 10px; 
+            background: #000; 
+            color: #ff0000; 
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .contact-form input:focus, 
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        }
+        
+        .contact-form textarea {
+            min-height: 120px; 
+            resize: vertical;
+        }
+        
+        /* Botón de Enviar Mensaje (Mismo estilo que el botón de Contáctanos) */
+        .contact-form button[type="submit"] {
+            width: 100%; 
+            padding: 15px; 
+            background: linear-gradient(145deg, #ff0000, #cc0000); 
+            color: #000; 
+            border: 2px solid #ff0000; 
+            border-radius: 10px; 
+            font-size: 18px; 
+            font-weight: 900;
+            cursor: pointer; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
+            margin-top: 20px;
+        }
+        
+        .contact-form button[type="submit"]:hover {
+            background: linear-gradient(145deg, #cc0000, #990000); 
+            transform: scale(1.01);
+            box-shadow: 0 0 30px rgba(255,0,0,1.0);
+        }
+
+        /* Ubicación y Mapa */
+        #ubicacion p {
+            font-size: 18px; 
+            margin: 20px 0;
+            color: #ddd;
+        }
+        
+        #ubicacion strong {
+            font-size: 22px; 
+            color: #ff0000; 
+            font-weight: 900; 
+            text-shadow: 0 0 10px rgba(255,0,0,0.8);
+        }
+
+        .mapa {
+            margin-top: 30px; 
+            border: 3px solid #ff0000; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            box-shadow: 0 0 25px rgba(255,0,0,0.5);
+            max-width: 100%;
+        }
+        
+        /* FOOTER (Copiado de index.html) */
+        footer {
+            background: #000;
+            text-align: center;
+            padding: 20px;
+            color: #666; 
+            font-size: 12px;
+            border-top: 3px solid #111;
+            margin-top: 80px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1> DK POLIZ </h1>
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a href="sobre-nosotros.html">Sobre Nosotros</a>
-      <a href="contacto.html">Contáctanos</a>
-      <a href="carrito.html">Carrito 🛒 (<span id="cart-count">0</span>)</a>
-    </nav>
-  </header>
+    <header>
+        <h1>DK POLIZ</h1>
+        <nav>
+            <a href="index.html">INICIO</a>
+            <a href="sobre-nosotros.html">NOSOTROS</a>
+            <a href="contacto.html">CONTACTO</a>
+            <a href="carrito.html">CARRITO 🛒 (<span id="cart-count">0</span>)</a>
+            <a href="login.html" class="admin-link" title="Acceso administrador">ADMINISTRADOR 🔑</a> </nav>
+    </header>
 
-  <section id="contacto">
-    <h2>Contáctanos</h2>
-    <p>Haz tus pedidos directamente:</p>
-    <a href="https://wa.me/573005970933?text=Hola%20vengo%20de%20la%20página%20web%20Frutos%20del%20Paraíso%20y%20quiero%20información%20de%20los%20productos."
-       target="_blank" class="btn-whatsapp">
-      📲 Pedir por WhatsApp
-    </a>
-    <p>Síguenos en Instagram: 
-      <a href="https://instagram.com/" target="_blank">@DK POLIZ</a>
-    </p>
-    <p>Síguenos en Facebook: 
-      <a href="https://facebook.com/" target="_blank">@DK POLIZ</a>
-    </p>
-    <p>Síguenos en TIKTOK: 
-      <a href="https://TIKTOK.com/" target="_blank">@DK POLIZ</a>
-    </p>
+    <section id="contacto">
+        <h2>📱 CONÉCTATE CON NOSOTROS</h2>
+        
+        <p style="font-size: 18px; margin-bottom: 20px; color: #aaa;">La vía más rápida para tus pedidos y consultas:</p>
+        
+        <a href="https://wa.me/573005970933?text=Hola%20vengo%20de%20la%20página%20web%20DK%20POLIZ%20y%20quiero%20información%20de%20los%20productos."
+            target="_blank" class="btn-whatsapp">
+            📲 PEDIR POR WHATSAPP
+        </a>
+        
+        <div class="social-card">
+            <p>🔥 SÍGUENOS EN LA CALLE DIGITAL:</p>
+            <p style="margin: 10px 0;">
+                <strong>Instagram:</strong> 
+                <a href="https://instagram.com/" target="_blank">@DK_POLIZ</a>
+            </p>
+            <p style="margin: 10px 0;">
+                <strong>Facebook:</strong> 
+                <a href="https://facebook.com/" target="_blank">@DK POLIZ</a>
+            </p>
+            <p style="margin: 10px 0;">
+                <strong>TikTok:</strong> 
+                <a href="https://tiktok.com/" target="_blank">@DK.POLIZ</a>
+            </p>
+        </div>
 
-    <h3>O escríbenos aquí:</h3>
-    <form action="https://formspree.io/f/xanpdowj" method="POST" class="contact-form">
-      <input type="text" name="nombre" placeholder="Tu nombre" required>
-      <input type="email" name="email" placeholder="Tu correo" required>
-      <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
-      <button type="submit">Enviar mensaje</button>
-    </form>
-  </section>
+        <h3>✉️ ¿TIENES UNA PROPUESTA? ESCRÍBENOS:</h3>
+        
+        <form action="https://formspree.io/f/xanpdowj" method="POST" class="contact-form">
+            <input type="text" name="nombre" placeholder="Tu nombre" required>
+            <input type="email" name="email" placeholder="Tu correo" required>
+            <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+            <button type="submit">ENVIAR MENSAJE</button>
+        </form>
+    </section>
 
-   <section id="ubicacion">
-  <h2>📍 Nuestra Ubicación</h2>
-  <p>Encuéntranos en:</p>
-  <p><strong>Cra. 15 #45-23, Bogotá, Colombia</strong></p>
+    <section id="ubicacion">
+        <h2>📍 NUESTRA BASE DE OPERACIONES</h2>
+        <p>Encuentra nuestro punto central en:</p>
+        <p>
+            <strong>Cra. 15 #45-23, Bogotá, Colombia</strong>
+        </p>
 
-  <div class="mapa">
-    <iframe 
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.793325512509!2d-74.06593608573584!3d4.647302643643602!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f99a4f1a1c5db%3A0x5d66aef3b84e01b9!2sCra.%2015%20%2345-23%2C%20Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1696252394855!5m2!1ses!2sco" 
-      width="100%" 
-      height="300" 
-      style="border:0; border-radius:10px;" 
-      allowfullscreen="" 
-      loading="lazy">
-    </iframe>
-  </div>
-</section>
+        <div class="mapa">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.793325512509!2d-74.06593608573584!3d4.647302643643602!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f99a4f1a1c5db%3A0x5d66aef3b84e01b9!2sCra.%2015%20%2345-23%2C%20Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1696252394855!5m2!1ses!2sco" 
+                width="100%" 
+                height="350" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+    </section>
 
-  <footer>
-    <p>&copy; 2025 DK POLIZ - Todos los derechos reservados</p>
-  </footer>
+    <footer>
+        <p>&copy; 2025 DK POLIZ - STYLE & ATTITUDE - TODOS LOS DERECHOS RESERVADOS</p>
+    </footer>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

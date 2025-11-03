@@ -1,20 +1,1040 @@
-* { box-sizing: border-box; }
-            body {
-                font-family: 'Poppins', sans-serif;
-                background: url('fondo.jpg') center/cover fixed, linear-gradient(135deg, #1a1a1a, #2d0000);
-                margin: 0;
-                padding: 0;
-                min-height: 100vh;
-                position: relative;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contabilidad - DK POLIZ</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Usar una imagen de fondo genérica o dejar solo el degradado si 'fondo.jpg' no existe */
+            background: url('fondo.jpg') center/cover fixed, linear-gradient(135deg, #1a1a1a, #000);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: -1;
+        }
+        
+        h1 { 
+            text-align: center; 
+            color: #ff0000; 
+            margin: 20px 0;
+            font-size: 28px;
+            padding: 0 15px;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.5);
+        }
+        
+        .container { 
+            width: 95%; 
+            max-width: 1200px;
+            margin: 0 auto 20px; 
+            padding: 0 10px;
+        }
+
+        /* Botones de navegación */
+        .nav-buttons { 
+            display: flex; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .nav-buttons button { 
+            background: linear-gradient(145deg, #1a1a1a, #000); 
+            color: #ff0000; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            border: 2px solid #ff0000; 
+            cursor: pointer; 
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .nav-buttons button:hover { 
+            background: #ff0000; 
+            color: #000;
+            border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Tabs */
+        .tabs { 
+            display: flex; 
+            justify-content: flex-start;
+            gap: 8px; 
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .tabs::-webkit-scrollbar { height: 6px; }
+        .tabs::-webkit-scrollbar-thumb { background: #ff0000; border-radius: 3px; }
+        
+        .tab { 
+            padding: 10px 18px; 
+            cursor: pointer; 
+            background: linear-gradient(145deg, #1a1a1a, #000); 
+            border-radius: 8px; 
+            color: #ff0000; 
+            font-weight: bold;
+            white-space: nowrap;
+            font-size: 14px;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .tab.active { 
+            background: #ff0000; 
+            color: #000;
+            border-color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+        .tab:hover { 
+            background: rgba(255, 0, 0, 0.2); 
+            border-color: #ff0000;
+        }
+
+        /* Botón exportar */
+        .export-btn { 
+            background: linear-gradient(145deg, #ff0000, #cc0000); 
+            margin-bottom: 15px;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 2px solid #ff0000;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        .export-btn:hover { 
+            background: linear-gradient(145deg, #cc0000, #990000); 
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Secciones */
+        .section { 
+            display: none; 
+            background: rgba(26, 26, 26, 0.95); 
+            padding: 20px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 30px rgba(255, 0, 0, 0.3);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+        }
+        .section.active { display: block; }
+
+        h2 { 
+            color: #ff0000; 
+            margin-bottom: 15px;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 900;
+        }
+        
+        h3 { 
+            color: #ff0000; 
+            margin: 20px 0 10px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Formularios */
+        input, select { 
+            padding: 12px; 
+            margin: 8px 0; 
+            width: 100%; 
+            border: 2px solid rgba(255, 0, 0, 0.5);
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            background: rgba(0, 0, 0, 0.7);
+            color: #ff0000;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        
+        input::placeholder {
+            color: rgba(255, 0, 0, 0.5);
+        }
+
+        /* Botones de formulario (Agregar/Guardar/Cancelar) */
+        .form-action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .form-action-buttons button {
+            padding: 12px 20px; 
+            background: linear-gradient(145deg, #ff0000, #cc0000); 
+            border: 2px solid #ff0000; 
+            color: #000; 
+            cursor: pointer; 
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .form-action-buttons button:hover { 
+            background: linear-gradient(145deg, #cc0000, #990000); 
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            transform: translateY(-2px);
+        }
+
+        #cancelarProv, #cancelarGasto, #cancelarIngreso {
+            background: linear-gradient(145deg, #333, #1a1a1a);
+            border-color: #666;
+            color: #ff0000;
+            display: none;
+        }
+        #cancelarProv:hover, #cancelarGasto:hover, #cancelarIngreso:hover {
+            background: linear-gradient(145deg, #1a1a1a, #000);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+
+        /* Tablas */
+        .tabla-wrapper {
+            overflow-x: auto;
+            margin-top: 15px;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 0, 0, 0.3);
+        }
+        
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 20px;
+            min-width: 500px;
+        }
+        
+        th, td { 
+            border: 1px solid rgba(255, 0, 0, 0.3); 
+            padding: 12px 10px; 
+            text-align: left;
+            font-size: 14px;
+        }
+        
+        th { 
+            background: linear-gradient(145deg, #ff0000, #cc0000); 
+            color: #000;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td { 
+            background: rgba(0, 0, 0, 0.7); 
+            color: #ff0000;
+        }
+
+        /* Estilos para los botones de acción (Editar/Eliminar) */
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            flex-wrap: wrap; 
+        }
+
+        .action-btn {
+            padding: 6px 10px;
+            border: 2px solid;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .edit-btn {
+            background: linear-gradient(145deg, #ff0000, #cc0000); 
+            color: #000;
+            border-color: #ff0000;
+        }
+        .edit-btn:hover {
+            background: linear-gradient(145deg, #cc0000, #990000);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        }
+
+        .delete-btn {
+            background: linear-gradient(145deg, #1a1a1a, #000); 
+            color: #ff0000;
+            border-color: #ff0000;
+        }
+        .delete-btn:hover {
+            background: linear-gradient(145deg, #000, #1a1a1a);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        }
+
+        /* Resumen financiero */
+        .resumen-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-resumen {
+            background: linear-gradient(145deg, #1a1a1a, #000);
+            color: #ff0000;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.3);
+            border: 2px solid rgba(255, 0, 0, 0.5);
+        }
+
+        .card-resumen h4 {
+            margin: 0 0 10px;
+            font-size: 14px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-resumen p {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        }
+
+        .card-balance {
+            /* Usar el color rojo brillante para el balance */
+            background: linear-gradient(145deg, #ff0000, #cc0000); 
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+        }
+        
+        .card-balance p {
+            text-shadow: none;
+        }
+
+        canvas { 
+            max-width: 100%;
+            margin-top: 20px;
+        }
+
+        /* Media Queries */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .resumen-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .container { width: 90%; }
+            .resumen-cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .tabs { justify-content: center; overflow-x: visible; }
+            .export-btn { width: auto; padding: 12px 30px; }
+            .form-action-buttons button { width: auto; }
+            table { min-width: auto; }
+        }
+
+        @media (max-width: 480px) {
+            .form-action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <h1>💰 CONTABILIDAD - DK POLIZ</h1>
+    <div class="container">
+
+        <div class="nav-buttons">
+            <button onclick="window.location.href='index.html'">🏠 INICIO</button>
+            <button onclick="window.location.href='admin.html'">🔙 ADMINISTRADOR</button>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="proveedores">PROVEEDORES</div>
+            <div class="tab" data-tab="gastos">GASTOS</div>
+            <div class="tab" data-tab="ingresos">INGRESOS</div>
+            <div class="tab" data-tab="resumen">RESUMEN</div>
+        </div>
+
+        <button class="export-btn" onclick="exportExcel()">📊 EXPORTAR A EXCEL</button>
+
+        <div class="section active" id="proveedores">
+            <h2 id="tituloProv">REGISTRAR PROVEEDOR</h2>
+            <input type="hidden" id="provIndex"> 
+            <input type="text" id="provNombre" placeholder="Nombre del proveedor">
+            <input type="text" id="provContacto" placeholder="Teléfono o email">
+            <input type="text" id="provProductos" placeholder="Productos o servicios">
+            
+            <div class="form-action-buttons">
+                <button onclick="guardarProveedor()" id="btnGuardarProveedor">➕ AGREGAR PROVEEDOR</button>
+                <button onclick="resetFormulario('Proveedor')" id="cancelarProv">❌ CANCELAR</button>
+            </div>
+            
+            <h3>LISTA DE PROVEEDORES</h3>
+            <div class="tabla-wrapper">
+                <table id="tablaProveedores">
+                    <thead>
+                        <tr>
+                            <th>NOMBRE</th>
+                            <th>CONTACTO</th>
+                            <th>PRODUCTOS/SERVICIOS</th>
+                            <th>ACCIONES</th>      
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section" id="gastos">
+            <h2 id="tituloGasto">REGISTRAR GASTO</h2>
+            <input type="hidden" id="gastoIndex"> 
+            <input type="date" id="gastoFecha">
+            <input type="text" id="gastoConcepto" placeholder="Concepto del gasto">
+            <input type="number" id="gastoMonto" placeholder="Monto">
+            <select id="gastoCategoria">
+                <option value="Ingredientes">Ingredientes</option>
+                <option value="Servicios">Servicios</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Otros">Otros</option>
+            </select>
+            
+            <div class="form-action-buttons">
+                <button onclick="guardarGasto()" id="btnGuardarGasto">➕ AGREGAR GASTO</button>
+                <button onclick="resetFormulario('Gasto')" id="cancelarGasto">❌ CANCELAR</button>
+            </div>
+            
+            <h3>LISTA DE GASTOS</h3>
+            <div class="tabla-wrapper">
+                <table id="tablaGastos">
+                    <thead>
+                        <tr>
+                            <th>FECHA</th>
+                            <th>CONCEPTO</th>
+                            <th>MONTO</th>
+                            <th>CATEGORÍA</th>
+                            <th>ACCIONES</th>      
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section" id="ingresos">
+            <h2 id="tituloIngreso">REGISTRAR INGRESO</h2>
+            <input type="hidden" id="ingresoIndex"> 
+            <input type="date" id="ingresoFecha">
+            <input type="text" id="ingresoConcepto" placeholder="Concepto del ingreso">
+            <input type="number" id="ingresoMonto" placeholder="Monto">
+            <select id="ingresoMetodo">
+                <option value="Nequi">Nequi</option>
+                <option value="Daviplata">Daviplata</option>
+                <option value="Contraentrega">Contraentrega</option>
+            </select>
+
+            <div class="form-action-buttons">
+                <button onclick="guardarIngreso()" id="btnGuardarIngreso">➕ AGREGAR INGRESO</button>
+                <button onclick="resetFormulario('Ingreso')" id="cancelarIngreso">❌ CANCELAR</button>
+            </div>
+            
+            <h3>LISTA DE INGRESOS</h3>
+            <div class="tabla-wrapper">
+                <table id="tablaIngresos">
+                    <thead>
+                        <tr>
+                            <th>FECHA</th>
+                            <th>CONCEPTO</th>
+                            <th>MONTO</th>
+                            <th>MÉTODO</th>
+                            <th>ACCIONES</th>      
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section" id="resumen">
+            <h2>📈 RESUMEN FINANCIERO</h2>
+            
+            <div class="resumen-cards">
+                <div class="card-resumen">
+                    <h4>TOTAL GASTOS</h4>
+                    <p id="totalGastos">$0</p>
+                </div>
+                <div class="card-resumen">
+                    <h4>TOTAL INGRESOS</h4>
+                    <p id="totalIngresos">$0</p>
+                </div>
+                <div class="card-resumen card-balance">
+                    <h4>BALANCE</h4>
+                    <p id="balance">$0</p>
+                </div>
+            </div>
+
+            <canvas id="graficoResumen"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbyOGAJib5u_hrsBKkNNoTe2Jw8TxXSN-kvGCy57YO5tzLywQ5w4EyfkRYlx12D-6XFt/exec"; 
+        
+        let proveedores = [];
+        let gastos = [];
+        let ingresos = [];
+        let registroEnEdicion = null;
+
+        // --------------------------------------------------------------------
+        // --- FUNCIONES CORE (FETCH Y POST) ---
+        // --------------------------------------------------------------------
+
+        async function fetchRecords(sheetKey) {
+            try {
+                const res = await fetch(`${API_URL}?sheet=${sheetKey}`);
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                const data = await res.json();
+                return data; 
+            } catch (error) {
+                console.error(`Error al cargar ${sheetKey}:`, error);
+                alert(`⚠️ Error al cargar datos de ${sheetKey}. Revisa tu API_URL y despliegue.`);
+                return [];
+            }
+        }
+
+        async function postRecord(sheetKey, data) {
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    body: JSON.stringify({ ...data, sheet: sheetKey })
+                });
+                const responseText = await res.text();
+                const response = JSON.parse(responseText); 
+                
+                if (response.success) {
+                    return true;
+                } else {
+                    console.error('Error al guardar:', response.error);
+                    alert(`⚠️ Error al guardar en ${sheetKey}. Respuesta del servidor: ${response.error || 'Desconocido'}`);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error de conexión/parseo:', error);
+                alert('⚠️ Error de conexión o formato de respuesta con Google Sheets API.');
+                return false;
+            }
+        }
+        
+        // Función auxiliar para recargar datos y resumen
+        async function actualizarGastosEIngresos() {
+            await cargarProveedores(); // También recarga proveedores
+            await cargarGastos();
+            await cargarIngresos();
+            actualizarResumen();
+        }
+
+        // --------------------------------------------------------------------
+        // --- LÓGICA DE UI Y TABS ---
+        // --------------------------------------------------------------------
+
+        const tabs = document.querySelectorAll('.tab');
+        const sections = document.querySelectorAll('.section');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                const targetId = tab.dataset.tab;
+                document.getElementById(targetId).classList.add('active');
+                
+                // Resetear formularios y recargar datos al cambiar de tab
+                if (targetId === 'proveedores') resetFormulario('Proveedor');
+                if (targetId === 'gastos') resetFormulario('Gasto');
+                if (targetId === 'ingresos') resetFormulario('Ingreso');
+
+                if (targetId === 'resumen') {
+                    actualizarResumen();
+                }
+            });
+        });
+
+        function resetFormulario(tipo) {
+            registroEnEdicion = null;
+            const today = new Date().toISOString().split('T')[0];
+            
+            if (tipo === 'Proveedor') {
+                document.getElementById('tituloProv').textContent = 'REGISTRAR PROVEEDOR';
+                document.getElementById('provNombre').value = '';
+                document.getElementById('provContacto').value = '';
+                document.getElementById('provProductos').value = '';
+                document.getElementById('btnGuardarProveedor').textContent = '➕ AGREGAR PROVEEDOR';
+                document.getElementById('cancelarProv').style.display = 'none';
+            } else if (tipo === 'Gasto') {
+                document.getElementById('tituloGasto').textContent = 'REGISTRAR GASTO';
+                document.getElementById('gastoFecha').value = today;
+                document.getElementById('gastoConcepto').value = '';
+                document.getElementById('gastoMonto').value = '';
+                document.getElementById('gastoCategoria').value = 'Ingredientes';
+                document.getElementById('btnGuardarGasto').textContent = '➕ AGREGAR GASTO';
+                document.getElementById('cancelarGasto').style.display = 'none';
+            } else if (tipo === 'Ingreso') {
+                document.getElementById('tituloIngreso').textContent = 'REGISTRAR INGRESO';
+                document.getElementById('ingresoFecha').value = today;
+                document.getElementById('ingresoConcepto').value = '';
+                document.getElementById('ingresoMonto').value = '';
+                document.getElementById('ingresoMetodo').value = 'Nequi';
+                document.getElementById('btnGuardarIngreso').textContent = '➕ AGREGAR INGRESO';
+                document.getElementById('cancelarIngreso').style.display = 'none';
+            }
+        }
+        
+        // --------------------------------------------------------------------
+        // --- FUNCIONES DE PROVEEDORES (ASUMIDAS Y GENERADAS) ---
+        // --------------------------------------------------------------------
+
+        async function cargarProveedores() {
+            proveedores = await fetchRecords('proveedores');
+            mostrarProveedores();
+        }
+        
+        function mostrarProveedores() {
+            const tbody = document.querySelector('#tablaProveedores tbody');
+            tbody.innerHTML = '';
+            proveedores.forEach((p) => {
+                const row = `
+                    <tr>
+                    <td>${p.Nombre}</td>
+                    <td>${p.Contacto}</td>
+                    <td>${p.Productos}</td>
+                    <td>
+                        <div class="action-buttons">
+                        <button class="action-btn edit-btn" onclick="editarProveedor('${p.ID}')">✏️ Editar</button>
+                        <button class="action-btn delete-btn" onclick="eliminarProveedor('${p.ID}')">🗑️ Eliminar</button>
+                        </div>
+                    </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+            resetFormulario('Proveedor');
+        }
+
+        async function guardarProveedor() {
+            const nombre = document.getElementById('provNombre').value.trim();
+            const contacto = document.getElementById('provContacto').value.trim();
+            const productos = document.getElementById('provProductos').value.trim();
+            
+            if(!nombre || !contacto || !productos) {
+                alert('⚠️ Por favor completa todos los campos del proveedor');
+                return;
+            }
+
+            let dataToSend = {nombre, contacto, productos};
+            let success = false;
+            let id_registro = registroEnEdicion ? registroEnEdicion.ID : null;
+
+            if(id_registro) {
+                // EDITAR:
+                success = await postRecord('proveedores', { 
+                    action: 'update', 
+                    id: id_registro, 
+                    data: dataToSend 
+                });
+            } else {
+                // AGREGAR:
+                success = await postRecord('proveedores', { 
+                    action: 'add', 
+                    data: dataToSend 
+                });
+            }
+
+            if (success) {
+                alert(`✅ Proveedor ${id_registro ? 'editado' : 'agregado'} correctamente.`);
+                await cargarProveedores();
+                resetFormulario('Proveedor');
+            }
+        }
+
+        function editarProveedor(id) {
+            const p = proveedores.find(item => item.ID == id);
+            if (!p) return;
+
+            registroEnEdicion = p;
+            document.getElementById('tituloProv').textContent = 'EDITAR PROVEEDOR';
+            document.getElementById('btnGuardarProveedor').textContent = '💾 GUARDAR CAMBIOS';
+            document.getElementById('cancelarProv').style.display = 'inline-block';
+
+            document.getElementById('provNombre').value = p.Nombre;
+            document.getElementById('provContacto').value = p.Contacto;
+            document.getElementById('provProductos').value = p.Productos;
+            
+            document.getElementById('proveedores').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function eliminarProveedor(id) {
+            if(confirm(`¿Estás seguro de que quieres eliminar este proveedor?`)) {
+                const success = await postRecord('proveedores', { 
+                    action: 'delete', 
+                    id: id 
+                });
+                if (success) {
+                    alert('❌ Proveedor eliminado correctamente.');
+                    await cargarProveedores();
+                }
+            }
+        }
+
+        // --------------------------------------------------------------------
+        // --- FUNCIONES DE GASTOS ---
+        // --------------------------------------------------------------------
+        
+        async function cargarGastos() {
+            // Asume que las cabeceras son: Fecha, Concepto, Monto, Categoria, ID (en mayúscula)
+            gastos = await fetchRecords('gastos');
+            mostrarGastos();
+        }
+
+        async function guardarGasto() {
+            const fecha = document.getElementById('gastoFecha').value;
+            const concepto = document.getElementById('gastoConcepto').value.trim();
+            const monto = parseFloat(document.getElementById('gastoMonto').value); 
+            const categoria = document.getElementById('gastoCategoria').value;
+            
+            if(!fecha || !concepto || isNaN(monto) || monto <= 0) {
+                alert('⚠️ Por favor completa todos los campos con valores válidos');
+                return;
+            }
+
+            let dataToSend = {fecha, concepto, monto, categoria};
+            let success = false;
+            let id_registro = registroEnEdicion ? registroEnEdicion.ID : null;
+
+            if(id_registro) {
+                // EDITAR:
+                success = await postRecord('gastos', { 
+                    action: 'update', 
+                    id: id_registro, 
+                    data: dataToSend 
+                });
+            } else {
+                // AGREGAR:
+                success = await postRecord('gastos', { 
+                    action: 'add', 
+                    data: dataToSend 
+                });
+            }
+
+            if (success) {
+                alert(`✅ Gasto ${id_registro ? 'editado' : 'agregado'} correctamente.`);
+                await actualizarGastosEIngresos();
+                resetFormulario('Gasto');
+            }
+        }
+
+        function editarGasto(id) {
+            const g = gastos.find(item => item.ID == id);
+            if (!g) return;
+
+            registroEnEdicion = g;
+            document.getElementById('tituloGasto').textContent = 'EDITAR GASTO';
+            document.getElementById('btnGuardarGasto').textContent = '💾 GUARDAR CAMBIOS';
+            document.getElementById('cancelarGasto').style.display = 'inline-block';
+
+            document.getElementById('gastoFecha').value = g.Fecha;
+            document.getElementById('gastoConcepto').value = g.Concepto;
+            document.getElementById('gastoMonto').value = g.Monto;
+            document.getElementById('gastoCategoria').value = g.Categoria;
+            
+            document.getElementById('gastos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function eliminarGasto(id) {
+            if(confirm(`¿Estás seguro de que quieres eliminar este gasto?`)) {
+                const success = await postRecord('gastos', { 
+                    action: 'delete', 
+                    id: id 
+                });
+                if (success) {
+                    alert('❌ Gasto eliminado correctamente.');
+                    await actualizarGastosEIngresos();
+                }
+            }
+        }
+
+        function mostrarGastos() {
+            const tbody = document.querySelector('#tablaGastos tbody');
+            tbody.innerHTML = '';
+            gastos.forEach((g) => {
+                const row = `
+                    <tr>
+                    <td>${g.Fecha}</td>
+                    <td>${g.Concepto}</td>
+                    <td>$${Number(g.Monto).toLocaleString('es-CO')}</td>
+                    <td>${g.Categoria}</td>
+                    <td>
+                        <div class="action-buttons">
+                        <button class="action-btn edit-btn" onclick="editarGasto('${g.ID}')">✏️ Editar</button>
+                        <button class="action-btn delete-btn" onclick="eliminarGasto('${g.ID}')">🗑️ Eliminar</button>
+                        </div>
+                    </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+            resetFormulario('Gasto');
+        }
+
+        // --------------------------------------------------------------------
+        // --- FUNCIONES DE INGRESOS ---
+        // --------------------------------------------------------------------
+
+        async function cargarIngresos() {
+            // Asume que las cabeceras son: Fecha, Concepto, Monto, Metodo, ID (en mayúscula)
+            ingresos = await fetchRecords('ingresos');
+            mostrarIngresos();
+        }
+
+        async function guardarIngreso() {
+            const fecha = document.getElementById('ingresoFecha').value;
+            const concepto = document.getElementById('ingresoConcepto').value.trim();
+            const monto = parseFloat(document.getElementById('ingresoMonto').value);
+            const metodo = document.getElementById('ingresoMetodo').value;
+            
+            if(!fecha || !concepto || isNaN(monto) || monto <= 0) {
+                alert('⚠️ Por favor completa todos los campos con valores válidos');
+                return;
+            }
+
+            let dataToSend = {fecha, concepto, monto, metodo};
+            let success = false;
+            let id_registro = registroEnEdicion ? registroEnEdicion.ID : null;
+
+            if(id_registro) {
+                // EDITAR:
+                success = await postRecord('ingresos', { 
+                    action: 'update', 
+                    id: id_registro, 
+                    data: dataToSend 
+                });
+            } else {
+                // AGREGAR:
+                success = await postRecord('ingresos', { 
+                    action: 'add', 
+                    data: dataToSend 
+                });
+            }
+
+            if (success) {
+                alert(`✅ Ingreso ${id_registro ? 'editado' : 'agregado'} correctamente.`);
+                await actualizarGastosEIngresos();
+                resetFormulario('Ingreso');
+            }
+        }
+
+        function editarIngreso(id) {
+            const i = ingresos.find(item => item.ID == id);
+            if (!i) return;
+
+            registroEnEdicion = i;
+            document.getElementById('tituloIngreso').textContent = 'EDITAR INGRESO';
+            document.getElementById('btnGuardarIngreso').textContent = '💾 GUARDAR CAMBIOS';
+            document.getElementById('cancelarIngreso').style.display = 'inline-block';
+
+            document.getElementById('ingresoFecha').value = i.Fecha;
+            document.getElementById('ingresoConcepto').value = i.Concepto;
+            document.getElementById('ingresoMonto').value = i.Monto;
+            document.getElementById('ingresoMetodo').value = i.Metodo;
+            
+            document.getElementById('ingresos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function eliminarIngreso(id) {
+            if(confirm(`¿Estás seguro de que quieres eliminar este ingreso?`)) {
+                const success = await postRecord('ingresos', { 
+                    action: 'delete', 
+                    id: id 
+                });
+                if (success) {
+                    alert('❌ Ingreso eliminado correctamente.');
+                    await actualizarGastosEIngresos();
+                }
+            }
+        }
+
+        function mostrarIngresos() {
+            const tbody = document.querySelector('#tablaIngresos tbody');
+            tbody.innerHTML = '';
+            ingresos.forEach((i) => {
+                const row = `
+                    <tr>
+                    <td>${i.Fecha}</td>
+                    <td>${i.Concepto}</td>
+                    <td>$${Number(i.Monto).toLocaleString('es-CO')}</td>
+                    <td>${i.Metodo}</td>
+                    <td>
+                        <div class="action-buttons">
+                        <button class="action-btn edit-btn" onclick="editarIngreso('${i.ID}')">✏️ Editar</button>
+                        <button class="action-btn delete-btn" onclick="eliminarIngreso('${i.ID}')">🗑️ Eliminar</button>
+                        </div>
+                    </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+            resetFormulario('Ingreso');
+        }
+
+        // --------------------------------------------------------------------
+        // --- RESUMEN Y EXCEL ---
+        // --------------------------------------------------------------------
+
+        function actualizarResumen() {
+            // Usamos la propiedad 'Monto' del JSON retornado (que es un String o Number)
+            const totalGastos = gastos.reduce((sum, g) => sum + (Number(g.Monto) || 0), 0);
+            const totalIngresos = ingresos.reduce((sum, i) => sum + (Number(i.Monto) || 0), 0);
+            const balance = totalIngresos - totalGastos;
+
+            document.getElementById('totalGastos').innerText = `$${totalGastos.toLocaleString('es-CO')}`;
+            document.getElementById('totalIngresos').innerText = `$${totalIngresos.toLocaleString('es-CO')}`;
+            document.getElementById('balance').innerText = `$${balance.toLocaleString('es-CO')}`;
+
+            const ctx = document.getElementById('graficoResumen').getContext('2d');
+            if(window.miGrafico) window.miGrafico.destroy();
+            window.miGrafico = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Gastos', 'Ingresos', 'Balance'],
+                    datasets: [{
+                        label: 'Monto ($)',
+                        data: [totalGastos, totalIngresos, balance],
+                        backgroundColor: ['#f36ca7', '#36a2f7', balance >= 0 ? '#34eb7a' : '#ff6384'] // COLORES ORIGINALES
+                    }]
+                },
+                options: { 
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { 
+                        legend: { 
+                            display: true,
+                            labels: {
+                                color: '#ff0000'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return '$' + context.parsed.y.toLocaleString('es-CO');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#ff0000',
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString('es-CO');
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(255, 0, 0, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#ff0000'
+                            },
+                            grid: {
+                                color: 'rgba(255, 0, 0, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Exportar Excel
+        function exportExcel() {
+            if(proveedores.length === 0 && gastos.length === 0 && ingresos.length === 0) {
+                alert('⚠️ No hay datos para exportar');
+                return;
             }
             
-            body::before {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.7);
-                z-index: -1;
-            }
+            const wb = XLSX.utils.book_new();
+            // Mapeo directo a los nombres de las cabeceras de Google Sheets
+            const p_export = proveedores.map(p => ({Nombre: p.Nombre, Contacto: p.Contacto, 'Productos/Servicios': p.Productos}));
+            const g_export = gastos.map(g => ({Fecha: g.Fecha, Concepto: g.Concepto, Monto: Number(g.Monto), Categoría: g.Categoria}));
+            const i_export = ingresos.map(i => ({Fecha: i.Fecha, Concepto: i.Concepto, Monto: Number(i.Monto), Método: i.Metodo}));
+
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(p_export), "Proveedores");
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(g_export), "Gastos");
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(i_export), "Ingresos");
+            XLSX.writeFile(wb, "contabilidad_dk_poliz.xlsx");
+            alert('✅ Excel exportado correctamente');
+        }
+
+        // Cargar datos al iniciar
+        async function init() {
+            // Cargar todos los datos desde Google Sheets
+            await cargarProveedores();
+            await cargarGastos();
+            await cargarIngresos();
+
+            // Inicializar UI
+            actualizarResumen();
+            
+            // Asegurar que se cargue la fecha de hoy por defecto en los formularios de fecha
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('gastoFecha').value = today;
+            document.getElementById('ingresoFecha').value = today;
+        }
+
+        init();
+    </script>
+</body>
+</html>

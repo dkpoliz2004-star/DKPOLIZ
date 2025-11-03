@@ -1,47 +1,245 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sobre Nosotros - Frutos del Paraíso</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nosotros - DK POLIZ | Streetwear Attitude</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* --- ESTILOS GENERALES (Armonía con index.html) --- */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9)),
+                url('img/fondo-urbano.jpg') no-repeat center center fixed; /* Asumiendo la misma imagen */
+            background-size: cover;
+            color: #f0f0f0; 
+            padding-bottom: 70px; /* Espacio para el footer fijo o relativo */
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: #000; 
+            padding: 18px 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+            border-bottom: 2px solid #FF0000;
+        }
+
+        header h1 {
+            color: #FF0000;
+            font-size: 38px;
+            margin: 0;
+            letter-spacing: 4px; 
+            text-transform: uppercase;
+            font-weight: 900; 
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+
+        nav {
+            margin-top: 15px;
+            border-top: 1px dashed #333;
+            padding-top: 10px;
+        }
+
+        nav a {
+            color: #ddd; 
+            text-decoration: none;
+            margin: 0 18px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        nav a:hover {
+            color: #FF0000;
+            text-shadow: 0 0 8px #FF0000;
+        }
+        
+        /* --- SECCIÓN PRINCIPAL --- */
+        #sobre-nosotros {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        #sobre-nosotros h2 {
+            color: #FF0000;
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            font-weight: 900;
+            text-shadow: 2px 2px 0 #000, 4px 4px 0 #111; /* Efecto 3D de graffiti */
+            text-align: center;
+        }
+
+        .intro-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin: 20px 0 40px;
+            text-align: center;
+            color: #ddd;
+        }
+
+        /* Contenedores de Misión/Visión */
+        .content-card {
+            margin: 30px 0;
+            padding: 30px;
+            background: #111; /* Gris Oscuro */
+            border-radius: 15px;
+            /* Estilo neón / cyberpunk */
+            border: 2px solid rgba(255, 0, 0, 0.5); 
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 30px rgba(255, 0, 0, 0.5);
+        }
+
+        .content-card h3 {
+            color: #ff0000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            border-bottom: 1px solid rgba(255, 0, 0, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .content-card p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #aaa;
+        }
+        
+        .content-card strong {
+            color: #ff0000; 
+            font-weight: 900;
+            text-shadow: 0 0 5px rgba(255,0,0,0.8);
+        }
+
+        /* Estilo especial para la tarjeta de eventos */
+        .event-card {
+            background: linear-gradient(145deg, rgba(255,0,0,0.15), #000);
+            border: 3px solid #ff0000;
+            box-shadow: 0 0 30px rgba(255,0,0,0.8);
+            margin-top: 50px;
+        }
+        
+        .event-card p.contact-call {
+            color: #ff0000; 
+            font-weight: 700;
+            margin-top: 20px;
+        }
+
+        /* Botón de Contacto */
+        .contact-btn {
+            display: inline-block; 
+            padding: 15px 40px; 
+            /* Gradiente de botón agresivo */
+            background: linear-gradient(145deg, #ff0000, #cc0000); 
+            color: #000; 
+            border: 2px solid #ff0000; 
+            border-radius: 10px; 
+            font-size: 18px; 
+            font-weight: 900;
+            text-decoration: none; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            transition: all 0.3s; 
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
+            margin-top: 40px;
+        }
+        
+        .contact-btn:hover {
+            background: linear-gradient(145deg, #cc0000, #990000); 
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,0,0,1.0);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #000;
+            text-align: center;
+            padding: 20px;
+            color: #666; 
+            font-size: 12px;
+            border-top: 3px solid #111;
+            margin-top: 80px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1> DK POLIZ </h1>
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a href="sobre-nosotros.html">Sobre Nosotros</a>
-      <a href="contacto.html">Contáctanos</a>
-      <a href="carrito.html">Carrito 🛒 (<span id="cart-count">0</span>)</a>
-    </nav>
-  </header>
+    <header>
+        <h1>DK POLIZ</h1>
+        <nav>
+            <a href="index.html">INICIO</a>
+            <a href="sobre-nosotros.html">NOSOTROS</a>
+            <a href="contacto.html">CONTACTO</a>
+            <a href="carrito.html">CARRITO 🛒 (<span id="cart-count">0</span>)</a>
+            <a href="login.html" class="admin-link" title="Acceso administrador">ADMINISTRADOR 🔑</a> </nav>
+    </header>
 
-  <section id="sobre-nosotros">
-    <h2>Sobre Nosotros</h2>
-    <p>Somos un emprendimiento familiar que elabora PRENDAS DE VESTIR.</p>
-    <h2>Misión</h2>
+    <section id="sobre-nosotros">
+        <h2>🔥 NUESTRA ACTITUD EN LA CALLE</h2>
+        
+        <p class="intro-text">
+            Somos <strong style="color: #ff0000;">DK POLIZ</strong>, un emprendimiento dedicado a la moda urbana masculina. 
+            Ofrecemos prendas de vestir con **estilo, actitud y autenticidad** para hombres que quieren destacar en la ciudad.
+        </p>
 
-    <p>Aquí va nuestra misión.</p>
-    <h2>Visión</h2>
-    
-    <p>Aquí va nuestra visión.</p>
+        <div class="content-card">
+            <h3>📋 MISIÓN</h3>
+            <p>
+                Proporcionar ropa urbana de alta calidad que refleje la personalidad y el estilo de vida de nuestros clientes, 
+                combinando diseño innovador, comodidad y precios accesibles. Nos esforzamos por ser la marca preferida de quienes 
+                buscan expresarse a través de su vestimenta con autenticidad y actitud.
+            </p>
+        </div>
 
-    <h2>Tambien atendemos eventos</h2>
-    
-    <p>Si tienes un evento y quieres contratar nuestros servicios en el apartado contactate con nosotros, dejanos un mensaje.</p>
-    <p> y un asesor se pondra en contacto contigo y te dara más información</p>
+        <div class="content-card">
+            <h3>🎯 VISIÓN</h3>
+            <p>
+                Convertirnos en una marca líder de moda urbana masculina en Colombia y expandirnos a nivel internacional, 
+                siendo reconocidos por nuestra calidad, originalidad y compromiso con nuestros clientes. Queremos inspirar a 
+                las nuevas generaciones a vestir con confianza y estilo propio.
+            </p>
+        </div>
 
-  </section>
+        <div class="content-card event-card">
+            <h3>🎉 TAMBIÉN ATENDEMOS EVENTOS</h3>
+            <p>
+                ¿Tienes un evento especial? En <strong style="color: #ff0000;">DK POLIZ</strong> también ofrecemos servicios 
+                para vestir a grupos completos en eventos corporativos, despedidas, reuniones y más.
+            </p>
+            <p class="contact-call">
+                📩 Contáctanos en la sección "Contacto", déjanos un mensaje y un asesor se pondrá en contacto contigo 
+                para darte más información y crear un look único para tu evento.
+            </p>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="contacto.html" class="contact-btn">
+                📞 CONTÁCTANOS AHORA
+            </a>
+        </div>
+    </section>
 
     <footer>
-    <p>&copy; 2025 DK POLIZ - Todos los derechos reservados</p>
-  </footer>
+        <p>&copy; 2025 DK POLIZ - STYLE & ATTITUDE - TODOS LOS DERECHOS RESERVADOS</p>
+    </footer>
 
-  <script src="script.js"></script>
-
- 
-
+    <script src="script.js"></script>
 </body>
 </html>

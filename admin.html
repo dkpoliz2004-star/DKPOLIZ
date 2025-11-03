@@ -1,616 +1,704 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel Administrador - Frutos del Paraíso</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f7b2d9, #ffe3ec);
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - DK POLIZ | Control de Sistema</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+    <style>
+        /* --- ESTILOS BASE Y FONDO --- */
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', sans-serif; /* Consistencia de fuente */
+            /* Fondo oscuro y dramático con el patrón urbano */
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9)),
+                url('img/fondo-urbano.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: #f0f0f0; /* Color de texto base */
+        }
 
-    /* Botón hamburguesa */
-    .menu-toggle {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      background-color: #e6659f;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 1001;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-      transition: 0.3s;
-    }
-    .menu-toggle:hover { background-color: #d9578f; }
+        /* --- MENÚ HAMBURGUESA Y OVERLAY --- */
+        .menu-toggle {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            /* Botón con el gradiente rojo que usamos en todo el sitio */
+            background: linear-gradient(145deg, #ff0000, #cc0000);
+            color: #000;
+            border: 3px solid #ff0000; /* Borde más grueso */
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.8); /* Sombra neón más fuerte */
+            transition: all 0.3s;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .menu-toggle:hover { 
+            background: linear-gradient(145deg, #cc0000, #990000);
+            box-shadow: 0 0 35px rgba(255, 0, 0, 1.0);
+            transform: scale(1.05);
+        }
 
-    /* Overlay oscuro */
-    .menu-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      z-index: 999;
-      transition: 0.3s;
-    }
-    .menu-overlay.active { display: block; }
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9); /* Overlay más oscuro */
+            z-index: 999;
+            transition: 0.3s;
+        }
+        .menu-overlay.active { display: block; }
 
-    /* Menú lateral */
-    .admin-menu {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 250px;
-      height: 100vh;
-      background-color: #e6659f;
-      color: white;
-      padding: 70px 20px 20px;
-      box-shadow: 2px 0 15px rgba(0,0,0,0.3);
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      z-index: 1000;
-      overflow-y: auto;
-    }
-    .admin-menu.active { transform: translateX(0); }
-    .admin-menu h2 { 
-      text-align: center; 
-      margin-bottom: 25px;
-      font-size: 22px;
-    }
-    .admin-menu button {
-      display: block;
-      width: 100%;
-      margin-bottom: 12px;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background-color: #f48fb1;
-      color: white;
-      cursor: pointer;
-      font-size: 16px;
-      transition: 0.3s;
-    }
-    .admin-menu button:hover { background-color: #d9578f; }
+        /* --- MENÚ LATERAL --- */
+        .admin-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px; /* Un poco más ancho */
+            height: 100vh;
+            background: #000; /* Negro puro */
+            color: #ff0000;
+            padding: 70px 20px 20px;
+            box-shadow: 5px 0 30px rgba(255, 0, 0, 0.8); /* Sombra intensa */
+            border-right: 3px solid #FF0000; /* Borde de neón */
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .admin-menu.active { transform: translateX(0); }
+        .admin-menu h2 { 
+            text-align: center; 
+            margin-bottom: 40px; /* Más espacio */
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 900;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 1.0);
+        }
+        .admin-menu button {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 2px solid #FF0000;
+            border-radius: 8px;
+            background: #1a1a1a; /* Gris oscuro para el fondo base */
+            color: #ff0000;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+        }
+        .admin-menu button:hover { 
+            background: linear-gradient(145deg, #ff0000, #cc0000);
+            color: #000;
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 1.0);
+            transform: scale(1.02);
+        }
 
-    /* Contenido principal */
-    .admin-content {
-      padding: 80px 15px 20px;
-      width: 100%;
-      max-width: 100%;
-    }
+        /* --- CONTENIDO PRINCIPAL --- */
+        .admin-content {
+            padding: 80px 15px 20px;
+            width: 100%;
+            max-width: 100%;
+        }
 
-    .seccion-admin { display: none; }
-    .seccion-admin.active { display: block; }
+        .seccion-admin { display: none; }
+        .seccion-admin.active { display: block; }
 
-    .container {
-      max-width: 100%;
-      margin: 0 auto;
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      padding: 20px;
-    }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(10, 10, 10, 0.98); /* Fondo casi negro */
+            border-radius: 15px;
+            box-shadow: 0 4px 40px rgba(255, 0, 0, 0.7); /* Sombra intensa */
+            border: 3px solid rgba(255, 0, 0, 0.5); /* Borde de acento */
+            padding: 30px;
+            backdrop-filter: blur(5px);
+        }
 
-    h2 { 
-      font-size: 20px; 
-      margin-bottom: 15px;
-      color: #e6659f;
-    }
+        h2 { 
+            font-size: 30px; 
+            margin-bottom: 25px;
+            color: #ff0000;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 0 #000, 4px 4px 0 #111; /* Efecto 3D de Graffiti */
+        }
 
-    input, textarea, select {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 16px;
-    }
+        h3 {
+            color: #ff0000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 30px;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(255, 0, 0, 0.3);
+            padding-bottom: 5px;
+        }
 
-    textarea { min-height: 80px; resize: vertical; }
+        /* Inputs y Selects */
+        input, textarea, select {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid rgba(255, 0, 0, 0.5);
+            border-radius: 10px;
+            font-size: 16px;
+            background: #000; /* Fondo negro puro */
+            color: #ff0000; /* Texto de entrada neón */
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+        }
 
-    button.form-btn {
-      background-color: #e6659f;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-      font-size: 16px;
-      margin: 5px 5px 5px 0;
-      width: auto;
-    }
-    button.form-btn:hover { background-color: #d9578f; }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
 
-    #mensaje {
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      font-weight: bold;
-    }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 0, 0, 0.6);
+        }
 
-    /* Tabla responsive */
-    .tabla-wrapper {
-      overflow-x: auto;
-      margin-top: 20px;
-      -webkit-overflow-scrolling: touch;
-    }
+        textarea { min-height: 100px; resize: vertical; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 600px;
-    }
+        /* Botones de Formulario (Guardar, Cancelar) */
+        button.form-btn {
+            background: linear-gradient(145deg, #ff0000, #cc0000);
+            color: #000;
+            padding: 15px 25px;
+            border: 3px solid #ff0000;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 10px 10px 10px 0;
+            width: auto;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        button.form-btn:hover { 
+            background: linear-gradient(145deg, #cc0000, #990000);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 1.0);
+            transform: translateY(-2px);
+        }
 
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px 8px;
-      text-align: left;
-      font-size: 14px;
-    }
+        /* Botón Cancelar Edición */
+        #cancelarEdicion {
+            display: none;
+            background: #333;
+            border-color: #666;
+            color: #f0f0f0;
+            box-shadow: none;
+        }
+        #cancelarEdicion:hover { 
+            background: #111;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            color: #FF0000;
+        }
+        
+        /* Mensaje de estado (éxito/error) */
+        #mensaje {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #f0f0f0;
+            border: 2px solid;
+            text-shadow: 0 0 5px #000;
+        }
 
-    th {
-      background-color: #f9c5db;
-      font-weight: bold;
-      position: sticky;
-      top: 0;
-    }
+        /* --- TABLA DE PRODUCTOS --- */
+        .tabla-wrapper {
+            overflow-x: auto;
+            margin-top: 30px;
+            border-radius: 10px;
+            border: 3px solid rgba(255, 0, 0, 0.5);
+        }
 
-    .acciones {
-      white-space: nowrap;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
 
-    .acciones button {
-      padding: 8px 12px;
-      font-size: 13px;
-      margin: 2px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        th, td {
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
 
-    .acciones button:first-child {
-      background-color: #4CAF50;
-      color: white;
-    }
+        th {
+            /* Mismo gradiente que los botones para las cabeceras */
+            background: linear-gradient(145deg, #ff0000, #cc0000);
+            color: #000;
+            font-weight: 900;
+            position: sticky;
+            top: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: none;
+        }
 
-    .acciones button:last-child {
-      background-color: #f44336;
-      color: white;
-    }
+        td {
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff; /* Texto blanco en celdas */
+        }
 
-    #cancelarEdicion {
-      display: none;
-      background-color: #999;
-    }
-    #cancelarEdicion:hover { background-color: #777; }
+        /* Botones de Acción en la Tabla */
+        .acciones button {
+            padding: 8px 15px;
+            font-size: 14px;
+            margin: 3px;
+            border-radius: 6px;
+            border: 2px solid #FF0000;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
 
-    /* Frase del día */
-    #frase-dia {
-      font-size: 18px;
-      padding: 20px;
-      border: 2px solid #f9c5db;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      min-height: 80px;
-      background: linear-gradient(135deg, #fff5f8, #ffe3ec);
-      color: #333;
-      font-weight: 500;
-      text-align: center;
-      line-height: 1.6;
-    }
+        .acciones button:first-child { /* Editar */
+            background: #1a1a1a;
+            color: #FF0000;
+        }
 
-    .volver {
-      display: inline-block;
-      margin-top: 20px;
-      color: #e6659f;
-      text-decoration: none;
-      font-weight: bold;
-    }
+        .acciones button:first-child:hover {
+            background: #FF0000;
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 1.0);
+        }
 
-    /* Loading */
-    .loading {
-      text-align: center;
-      color: #e6659f;
-      padding: 20px;
-    }
+        .acciones button:last-child { /* Eliminar */
+            background: #333;
+            color: #ff0000;
+            border-color: #666;
+        }
 
-    /* Desktop */
-    @media (min-width: 769px) {
-      .menu-toggle { display: none; }
-      .menu-overlay { display: none !important; }
-      
-      body { display: flex; }
-      
-      .admin-menu {
-        position: relative;
-        transform: translateX(0);
-        width: 250px;
-        padding: 20px;
-      }
-      
-      .admin-content {
-        flex: 1;
-        padding: 30px;
-      }
+        .acciones button:last-child:hover {
+            background: #FF0000;
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 1.0);
+        }
 
-      .container {
-        max-width: 900px;
-        padding: 30px;
-      }
+        /* --- FRASE DEL DÍA --- */
+        #frase-dia {
+            font-size: 20px;
+            padding: 30px;
+            border: 3px solid #ff0000;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            min-height: 100px;
+            background: #000;
+            color: #fff; /* Texto blanco en el display */
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.8;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
 
-      table { min-width: auto; }
-    }
+        .volver {
+            display: inline-block;
+            margin-top: 30px;
+            color: #ff0000;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
 
-    /* Tablet */
-    @media (min-width: 481px) and (max-width: 768px) {
-      .container { padding: 25px; }
-      .admin-content { padding: 90px 20px 20px; }
-    }
+        .volver:hover {
+            text-shadow: 0 0 15px rgba(255, 0, 0, 1.0);
+        }
+        
+        .loading {
+            text-align: center;
+            color: #ff0000;
+            padding: 20px;
+            font-weight: 900;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
 
-    /* Mobile pequeño */
-    @media (max-width: 480px) {
-      .menu-toggle {
-        top: 10px;
-        left: 10px;
-        padding: 10px 14px;
-        font-size: 20px;
-      }
 
-      .admin-menu { width: 220px; }
+        /* --- MEDIA QUERIES (RESPONSIVE) --- */
+        @media (min-width: 769px) {
+            .admin-menu { width: 300px; } /* Menú de escritorio más grande */
+            .admin-content { padding: 30px 40px; }
+            .container { max-width: 1000px; }
+            h2 { font-size: 36px; }
+        }
 
-      .admin-content { padding: 70px 10px 15px; }
-      
-      .container {
-        padding: 15px;
-        border-radius: 10px;
-      }
-
-      h2 { font-size: 18px; }
-
-      input, textarea, select {
-        padding: 10px;
-        font-size: 14px;
-      }
-
-      button.form-btn {
-        padding: 10px 15px;
-        font-size: 14px;
-        width: 100%;
-        margin: 5px 0;
-      }
-
-      th, td {
-        padding: 8px 5px;
-        font-size: 12px;
-      }
-
-      .acciones button {
-        padding: 6px 8px;
-        font-size: 12px;
-        display: block;
-        width: 100%;
-        margin: 3px 0;
-      }
-    }
-  </style>
+        @media (max-width: 480px) {
+            .admin-menu { width: 90%; }
+            .admin-content { padding: 70px 10px 15px; }
+            
+            .container { padding: 15px; }
+            h2 { font-size: 24px; }
+            
+            button.form-btn {
+                padding: 12px 18px;
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Botón hamburguesa -->
-  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
-  <!-- Overlay -->
-  <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
-  <!-- Menú lateral -->
-  <nav class="admin-menu" id="menuLateral">
-    <h2>Administrador</h2>
-    <button onclick="window.location.href='index.html'">← Volver al inicio</button>
-    <button onclick="mostrarSeccion('productos'); cerrarMenuMobile()">Productos</button>
-    <button onclick="mostrarSeccion('frase'); cerrarMenuMobile()">Versículo del Día</button>
-    <button onclick="window.location.href='admin-contabilidad.html'">Contabilidad</button>
-  </nav>
+    <nav class="admin-menu" id="menuLateral">
+        <h2>ADMIN DK POLIZ</h2>
+        <button onclick="window.location.href='index.html'">← VOLVER AL INICIO</button>
+        <button onclick="mostrarSeccion('productos'); cerrarMenuMobile()">PRODUCTOS 👕</button>
+        <button onclick="mostrarSeccion('frase'); cerrarMenuMobile()">PROMO DEL DÍA 🔥</button>
+        <button onclick="window.location.href='admin-contabilidad.html'">CONTABILIDAD 💰</button>
+        <button onclick="window.location.href='login.html'">CERRAR SESIÓN ❌</button>
+    </nav>
 
-  <!-- Contenido principal -->
-  <div class="admin-content">
-    <!-- Sección Productos -->
-    <div id="productos" class="seccion-admin active">
-      <div class="container">
-        <h2 id="titulo-form">Agregar Producto</h2>
-        <input type="hidden" id="editId">
-        <input type="text" id="name" placeholder="Nombre del producto">
-        <textarea id="description" placeholder="Descripción"></textarea>
-        <input type="number" id="price" placeholder="Precio">
-        <input type="text" id="image_url" placeholder="URL de la imagen">
-        <select id="available">
-          <option value="yes">Disponible</option>
-          <option value="no">No disponible</option>
-        </select>
-        <button class="form-btn" id="btn-guardar" onclick="agregarProducto()">Agregar</button>
-        <button class="form-btn" id="cancelarEdicion" onclick="cancelarEdicion()">Cancelar</button>
-        <p id="mensaje"></p>
+    <div class="admin-content">
+        <div id="productos" class="seccion-admin active">
+            <div class="container">
+                <h2 id="titulo-form">AGREGAR NUEVO PRODUCTO</h2>
+                <input type="hidden" id="editId">
+                <input type="text" id="name" placeholder="Nombre del producto">
+                <textarea id="description" placeholder="Descripción"></textarea>
+                <input type="number" id="price" placeholder="Precio ($)">
+                <input type="text" id="image_url" placeholder="URL de la imagen (Ej: img/gorra.jpg)">
+                <select id="available">
+                    <option value="yes">✅ Disponible</option>
+                    <option value="no">❌ No disponible</option>
+                </select>
+                <button class="form-btn" id="btn-guardar" onclick="agregarProducto()">AGREGAR PRODUCTO</button>
+                <button class="form-btn" id="cancelarEdicion" onclick="cancelarEdicion()">CANCELAR EDICIÓN</button>
+                <p id="mensaje"></p>
 
-        <h2>Lista de Productos</h2>
-        <div class="loading" id="loading-productos">Cargando productos...</div>
-        <div class="tabla-wrapper" id="tabla-productos-wrapper" style="display:none;">
-          <table id="tabla-productos">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Disponible</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+                <h3>LISTA DE PRODUCTOS ACTIVOS</h3>
+                <div class="loading" id="loading-productos">Cargando productos...</div>
+                <div class="tabla-wrapper" id="tabla-productos-wrapper" style="display:none;">
+                    <table id="tabla-productos">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Disponible</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <a href="index.html" class="volver">← VOLVER AL INICIO</a>
+            </div>
         </div>
-        <a href="index.html" class="volver">← Volver al inicio</a>
-      </div>
+
+        <div id="frase" class="seccion-admin">
+            <div class="container">
+                <h2>🔥 GESTIONAR PROMOCIÓN DEL DÍA 🔥</h2>
+                <p style="margin-bottom: 15px; color: #aaa;">Esto es lo que actualmente se muestra en la sección de inicio de la página web:</p>
+                
+                <div class="loading" id="loading-frase">Cargando promoción...</div>
+                <div id="frase-dia" style="display:none;"></div>
+                
+                <hr style="margin: 30px 0; border: none; border-top: 3px solid rgba(255, 0, 0, 0.5);">
+                
+                <h3>EDITAR/CREAR PROMOCIÓN</h3>
+                <textarea id="frase-input" placeholder="Escribe la promoción del día o una frase llamativa aquí..."></textarea>
+                
+                <button class="form-btn" onclick="guardarFrase()">💾 GUARDAR PROMOCIÓN</button>
+                <button class="form-btn" onclick="borrarFrase()">🗑️ BORRAR PROMOCIÓN</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Sección Frase del Día -->
-    <div id="frase" class="seccion-admin">
-      <div class="container">
-        <h2>✨ Versículo del día ✨</h2>
-        <p style="margin-bottom: 15px; color: #666;">Esto es lo que actualmente se muestra en el inicio:</p>
-        <div class="loading" id="loading-frase">Cargando versículo...</div>
-        <div id="frase-dia" style="display:none;"></div>
-        <hr style="margin: 20px 0; border: none; border-top: 2px solid #f9c5db;">
-        <h3 style="font-size: 18px; color: #e6659f; margin-bottom: 10px;">Editar versículo</h3>
-        <textarea id="frase-input" placeholder="Escribe el versículo del día aquí"></textarea>
-        <button class="form-btn" onclick="guardarFrase()">💾 Guardar Versículo</button>
-        <button class="form-btn" onclick="borrarFrase()" style="background-color: #f44336;">🗑️ Borrar Versículo</button>
-      </div>
-    </div>
-  </div>
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbwXGscN5RyOcKTq51nDxVU1K9nwRW1PEZSCmTlD1mSVR4G1U_9-arRSUjquom1z5q9f/exec";
+        let editando = false;
 
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwXGscN5RyOcKTq51nDxVU1K9nwRW1PEZSCmTlD1mSVR4G1U_9-arRSUjquom1z5q9f/exec";
-    let editando = false;
-
-    // ---------- FUNCIONES PRODUCTOS ----------
-    async function cargarProductos() {
-      try {
-        const res = await fetch(API_URL);
-        const productos = await res.json();
-        
-        const tbody = document.querySelector("#tabla-productos tbody");
-        tbody.innerHTML = "";
-        
-        productos.forEach(p => {
-          const fila = `
-            <tr>
-              <td>${p.id}</td>
-              <td>${p.name}</td>
-              <td>$${Number(p.price).toLocaleString('es-CO')}</td>
-              <td>${p.available}</td>
-              <td class="acciones">
-                <button onclick='editarProducto(${JSON.stringify(p)})'>✏️ Editar</button>
-                <button onclick='eliminarProducto(${JSON.stringify(p.id)})'>🗑️ Eliminar</button>
-              </td>
-            </tr>`;
-          tbody.insertAdjacentHTML("beforeend", fila);
-        });
-        
-        document.getElementById('loading-productos').style.display = 'none';
-        document.getElementById('tabla-productos-wrapper').style.display = 'block';
-      } catch(error) {
-        document.getElementById('loading-productos').textContent = '⚠️ Error al cargar productos';
-        console.error(error);
-      }
-    }
-
-    async function agregarProducto() {
-      const id = document.getElementById("editId").value || new Date().getTime();
-      const name = document.getElementById("name").value.trim();
-      const description = document.getElementById("description").value.trim();
-      const price = document.getElementById("price").value.trim();
-      const image_url = document.getElementById("image_url").value.trim();
-      const available = document.getElementById("available").value;
-
-      if (!name || !description || !price || !image_url) {
-        mostrarMensaje("Por favor completa todos los campos.", "red");
-        return;
-      }
-
-      const producto = { id, name, description, price, image_url, available, edit: editando };
-      
-      try {
-        const res = await fetch(API_URL, { 
-          method: "POST", 
-          body: JSON.stringify(producto) 
-        });
-        const texto = await res.text();
-        
-        if (texto.includes("OK")) {
-          mostrarMensaje(editando ? "✅ Producto actualizado." : "✅ Producto agregado correctamente.", "green");
-          resetFormulario();
-          cargarProductos();
-        } else {
-          mostrarMensaje("⚠️ Error al guardar el producto.", "red");
+        // ---------- FUNCIONES PRODUCTOS ----------
+        async function cargarProductos() {
+            try {
+                const res = await fetch(API_URL);
+                const productos = await res.json();
+                
+                const tbody = document.querySelector("#tabla-productos tbody");
+                tbody.innerHTML = "";
+                
+                productos.forEach(p => {
+                    const fila = `
+                        <tr>
+                            <td>${p.id}</td>
+                            <td>${p.name}</td>
+                            <td>$${Number(p.price).toLocaleString('es-CO')}</td>
+                            <td>${p.available.toUpperCase()}</td>
+                            <td class="acciones">
+                                <button onclick='editarProducto(${JSON.stringify(p)})'>✏️ Editar</button>
+                                <button onclick='eliminarProducto(${JSON.stringify(p.id)})'>🗑️ Eliminar</button>
+                            </td>
+                        </tr>`;
+                    tbody.insertAdjacentHTML("beforeend", fila);
+                });
+                
+                document.getElementById('loading-productos').style.display = 'none';
+                document.getElementById('tabla-productos-wrapper').style.display = 'block';
+            } catch(error) {
+                document.getElementById('loading-productos').textContent = '⚠️ Error al cargar productos';
+                console.error(error);
+            }
         }
-      } catch(error) {
-        mostrarMensaje("⚠️ Error de conexión.", "red");
-        console.error(error);
-      }
-    }
 
-    function editarProducto(p) {
-      document.getElementById("titulo-form").textContent = "Editar Producto";
-      document.getElementById("btn-guardar").textContent = "Guardar Cambios";
-      document.getElementById("cancelarEdicion").style.display = "inline-block";
-      editando = true;
-      document.getElementById("editId").value = p.id;
-      document.getElementById("name").value = p.name;
-      document.getElementById("description").value = p.description;
-      document.getElementById("price").value = p.price;
-      document.getElementById("image_url").value = p.image_url;
-      document.getElementById("available").value = (p.available.toLowerCase() === "yes" || p.available.toLowerCase() === "sí") ? "yes" : "no";
-      
-      document.getElementById("titulo-form").scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+        async function agregarProducto() {
+            const id = document.getElementById("editId").value || new Date().getTime();
+            const name = document.getElementById("name").value.trim();
+            const description = document.getElementById("description").value.trim();
+            const price = document.getElementById("price").value.trim();
+            const image_url = document.getElementById("image_url").value.trim();
+            const available = document.getElementById("available").value;
 
-    function cancelarEdicion() {
-      resetFormulario();
-      mostrarMensaje("Edición cancelada.", "gray");
-    }
+            if (!name || !description || !price || !image_url) {
+                mostrarMensaje("Por favor completa todos los campos.", "red");
+                return;
+            }
 
-    function resetFormulario() {
-      editando = false;
-      document.getElementById("titulo-form").textContent = "Agregar Producto";
-      document.getElementById("btn-guardar").textContent = "Agregar";
-      document.getElementById("cancelarEdicion").style.display = "none";
-      document.getElementById("editId").value = "";
-      document.getElementById("name").value = "";
-      document.getElementById("description").value = "";
-      document.getElementById("price").value = "";
-      document.getElementById("image_url").value = "";
-      document.getElementById("available").value = "yes";
-    }
-
-    async function eliminarProducto(id) {
-      if (!confirm("¿Seguro que deseas eliminar este producto?")) return;
-      
-      try {
-        const res = await fetch(API_URL, { 
-          method: "POST", 
-          body: JSON.stringify({ id, delete: true }) 
-        });
-        const texto = await res.text();
-        
-        if (texto.includes("OK")) {
-          mostrarMensaje("🗑️ Producto eliminado.", "orange");
-          cargarProductos();
-        } else {
-          mostrarMensaje("⚠️ Error al eliminar el producto.", "red");
+            const producto = { id, name, description, price, image_url, available, edit: editando };
+            
+            try {
+                const res = await fetch(API_URL, { 
+                    method: "POST", 
+                    body: JSON.stringify(producto) 
+                });
+                const texto = await res.text();
+                
+                if (texto.includes("OK")) {
+                    mostrarMensaje(editando ? "✅ Producto actualizado." : "✅ Producto agregado correctamente.", "green");
+                    resetFormulario();
+                    cargarProductos();
+                } else {
+                    mostrarMensaje("⚠️ Error al guardar el producto.", "red");
+                }
+            } catch(error) {
+                mostrarMensaje("⚠️ Error de conexión.", "red");
+                console.error(error);
+            }
         }
-      } catch(error) {
-        mostrarMensaje("⚠️ Error de conexión.", "red");
-        console.error(error);
-      }
-    }
 
-    function mostrarMensaje(texto, color) {
-      const msg = document.getElementById("mensaje");
-      msg.textContent = texto;
-      msg.style.color = color;
-      msg.style.backgroundColor = color === 'green' ? '#d4edda' : color === 'red' ? '#f8d7da' : '#e2e3e5';
-      setTimeout(() => {
-        msg.textContent = "";
-        msg.style.backgroundColor = "transparent";
-      }, 3000);
-    }
-
-    // ---------- FUNCIONES FRASE DEL DÍA ----------
-    async function cargarFrase() {
-      try {
-        const res = await fetch(`${API_URL}?sheet=frase`);
-        const data = await res.json();
-        
-        // Mostrar exactamente lo que se muestra en el index
-        const frase = data.frase || "Cargando mensaje...";
-        document.getElementById("frase-dia").textContent = frase;
-        
-        // En el textarea mostrar el contenido real (vacío si está vacío)
-        document.getElementById("frase-input").value = data.frase || "";
-        
-        document.getElementById('loading-frase').style.display = 'none';
-        document.getElementById('frase-dia').style.display = 'block';
-      } catch(error) {
-        document.getElementById('loading-frase').textContent = '⚠️ Error al cargar versículo';
-        document.getElementById('frase-dia').textContent = 'Cargando mensaje...';
-        document.getElementById('frase-dia').style.display = 'block';
-        console.error(error);
-      }
-    }
-
-    async function guardarFrase() {
-      const texto = document.getElementById("frase-input").value.trim();
-      if (!texto) return alert("Escribe un versículo antes de guardar.");
-      
-      try {
-        const res = await fetch(API_URL, {
-          method: "POST",
-          body: JSON.stringify({ sheet: 'frase', frase: texto })
-        });
-        const data = await res.json();
-        
-        if (data.success) {
-          document.getElementById("frase-dia").textContent = texto;
-          alert("✅ Versículo del día guardado en Google Sheets.");
-        } else {
-          alert("⚠️ Error al guardar el versículo.");
+        function editarProducto(p) {
+            document.getElementById("titulo-form").textContent = "EDITAR PRODUCTO";
+            document.getElementById("btn-guardar").textContent = "GUARDAR CAMBIOS";
+            document.getElementById("cancelarEdicion").style.display = "inline-block";
+            editando = true;
+            document.getElementById("editId").value = p.id;
+            document.getElementById("name").value = p.name;
+            document.getElementById("description").value = p.description;
+            document.getElementById("price").value = p.price;
+            document.getElementById("image_url").value = p.image_url;
+            document.getElementById("available").value = (p.available.toLowerCase() === "yes" || p.available.toLowerCase() === "sí") ? "yes" : "no";
+            
+            document.getElementById("titulo-form").scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      } catch(error) {
-        alert("⚠️ Error de conexión.");
-        console.error(error);
-      }
-    }
 
-    async function borrarFrase() {
-      if (!confirm("¿Estás segura de borrar el versículo del día? Volverá al mensaje predeterminado.")) return;
-      
-      try {
-        const res = await fetch(API_URL, {
-          method: "POST",
-          body: JSON.stringify({ sheet: 'frase', frase: '' })
-        });
-        const data = await res.json();
-        
-        if (data.success) {
-          document.getElementById("frase-dia").textContent = "Cargando mensaje...";
-          document.getElementById("frase-input").value = "";
-          alert("🗑️ Versículo del día borrado. Ahora muestra el mensaje predeterminado.");
-        } else {
-          alert("⚠️ Error al borrar el versículo.");
+        function cancelarEdicion() {
+            resetFormulario();
+            mostrarMensaje("Edición cancelada.", "gray");
         }
-      } catch(error) {
-        alert("⚠️ Error de conexión.");
-        console.error(error);
-      }
-    }
 
-    // ---------- MENÚ RESPONSIVE ----------
-    function toggleMenu() {
-      const menu = document.getElementById("menuLateral");
-      const overlay = document.getElementById("menuOverlay");
-      menu.classList.toggle("active");
-      overlay.classList.toggle("active");
-    }
+        function resetFormulario() {
+            editando = false;
+            document.getElementById("titulo-form").textContent = "AGREGAR NUEVO PRODUCTO";
+            document.getElementById("btn-guardar").textContent = "AGREGAR PRODUCTO";
+            document.getElementById("cancelarEdicion").style.display = "none";
+            document.getElementById("editId").value = "";
+            document.getElementById("name").value = "";
+            document.getElementById("description").value = "";
+            document.getElementById("price").value = "";
+            document.getElementById("image_url").value = "";
+            document.getElementById("available").value = "yes";
+        }
 
-    function cerrarMenuMobile() {
-      if (window.innerWidth <= 768) {
-        toggleMenu();
-      }
-    }
+        async function eliminarProducto(id) {
+            if (!confirm("¿Seguro que deseas eliminar este producto?")) return;
+            
+            try {
+                const res = await fetch(API_URL, { 
+                    method: "POST", 
+                    body: JSON.stringify({ id, delete: true }) 
+                });
+                const texto = await res.text();
+                
+                if (texto.includes("OK")) {
+                    mostrarMensaje("🗑️ Producto eliminado.", "orange");
+                    cargarProductos();
+                } else {
+                    mostrarMensaje("⚠️ Error al eliminar el producto.", "red");
+                }
+            } catch(error) {
+                mostrarMensaje("⚠️ Error de conexión.", "red");
+                console.error(error);
+            }
+        }
 
-    function mostrarSeccion(seccion) {
-      document.querySelectorAll('.seccion-admin').forEach(s => s.classList.remove('active'));
-      document.getElementById(seccion).classList.add('active');
-      
-      // Cargar datos al cambiar de sección
-      if (seccion === 'frase') {
-        cargarFrase();
-      }
-    }
+        function mostrarMensaje(texto, color) {
+            const msg = document.getElementById("mensaje");
+            msg.textContent = texto;
+            
+            let textColor = '#f0f0f0'; // Blanco para todo
+            let bgColor = 'rgba(255, 0, 0, 0.2)'; // Fondo por defecto
+            let borderColor = color;
 
-    // Cargar datos al iniciar
-    cargarProductos();
-  </script>
+            if (color === 'green') {
+                bgColor = 'rgba(37, 211, 102, 0.2)'; // Verde WhatsApp
+                borderColor = '#25D366';
+            } else if (color === 'red') {
+                bgColor = 'rgba(244, 67, 54, 0.2)';
+                borderColor = '#F44337';
+            } else if (color === 'orange') {
+                bgColor = 'rgba(255, 152, 0, 0.2)';
+                borderColor = '#FF9800';
+            } else { // Gray (cancelación)
+                bgColor = 'rgba(158, 158, 158, 0.2)';
+                borderColor = '#9E9E9E';
+                textColor = '#9E9E9E';
+            }
+
+            msg.style.color = textColor;
+            msg.style.backgroundColor = bgColor;
+            msg.style.borderColor = borderColor;
+
+            msg.style.padding = '15px';
+            msg.style.borderRadius = '8px';
+            msg.style.border = `2px solid ${borderColor}`;
+            
+            setTimeout(() => {
+                msg.textContent = "";
+                msg.style.backgroundColor = "transparent";
+                msg.style.border = "none";
+                msg.style.padding = '0';
+            }, 3000);
+        }
+
+        // ---------- FUNCIONES FRASE DEL DÍA ----------
+        async function cargarFrase() {
+            try {
+                const res = await fetch(`${API_URL}?sheet=frase`);
+                const data = await res.json();
+                
+                const frase = data.frase || "Aún no hay promoción activa.";
+                document.getElementById("frase-dia").textContent = frase;
+                document.getElementById("frase-input").value = data.frase || "";
+                
+                document.getElementById('loading-frase').style.display = 'none';
+                document.getElementById('frase-dia').style.display = 'block';
+            } catch(error) {
+                document.getElementById('loading-frase').textContent = '⚠️ Error al cargar promoción';
+                document.getElementById('frase-dia').textContent = 'Aún no hay promoción activa.';
+                document.getElementById('frase-dia').style.display = 'block';
+                console.error(error);
+            }
+        }
+
+        async function guardarFrase() {
+            const texto = document.getElementById("frase-input").value.trim();
+            if (!texto) return alert("Escribe una promoción antes de guardar.");
+            
+            try {
+                const res = await fetch(API_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ sheet: 'frase', frase: texto })
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    document.getElementById("frase-dia").textContent = texto;
+                    alert("✅ Promoción del día guardada en Google Sheets.");
+                } else {
+                    alert("⚠️ Error al guardar la promoción.");
+                }
+            } catch(error) {
+                alert("⚠️ Error de conexión.");
+                console.error(error);
+            }
+        }
+
+        async function borrarFrase() {
+            if (!confirm("¿Estás seguro de borrar la promoción del día?")) return;
+            
+            try {
+                const res = await fetch(API_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ sheet: 'frase', frase: '' })
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    document.getElementById("frase-dia").textContent = "Aún no hay promoción activa.";
+                    document.getElementById("frase-input").value = "";
+                    alert("🗑️ Promoción del día borrada.");
+                } else {
+                    alert("⚠️ Error al borrar la promoción.");
+                }
+            } catch(error) {
+                alert("⚠️ Error de conexión.");
+                console.error(error);
+            }
+        }
+
+        // ---------- MENÚ RESPONSIVE ----------
+        function toggleMenu() {
+            const menu = document.getElementById("menuLateral");
+            const overlay = document.getElementById("menuOverlay");
+            menu.classList.toggle("active");
+            overlay.classList.toggle("active");
+        }
+
+        function cerrarMenuMobile() {
+            if (window.innerWidth <= 768) {
+                toggleMenu();
+            }
+        }
+
+        function mostrarSeccion(seccion) {
+            document.querySelectorAll('.seccion-admin').forEach(s => s.classList.remove('active'));
+            document.getElementById(seccion).classList.add('active');
+            
+            if (seccion === 'frase') {
+                cargarFrase();
+            }
+        }
+
+        // Inicialización
+        (function() {
+            // Revisa si está logueado (simple protección)
+            if (localStorage.getItem('adminLogged') !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            cargarProductos();
+        })();
+    </script>
 </body>
 </html>
