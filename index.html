@@ -1,59 +1,221 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DK Poliz - Ropa Urbana</title>
-  <link rel="stylesheet" href="css/estilos.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DK Poliz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)),
+        url('img/fondo-urbano.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 15px 0;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    header h1 {
+      color: #e50914;
+      font-size: 32px;
+      margin: 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #e50914;
+    }
+
+    main {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    #inicio h2 {
+      color: #e50914;
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    #inicio p {
+      color: #ddd;
+      font-size: 18px;
+      margin-bottom: 40px;
+    }
+
+    #versiculo-diario {
+      background: rgba(20, 20, 20, 0.85);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      box-shadow: 0 0 10px rgba(229, 9, 20, 0.2);
+    }
+
+    #versiculo-diario h2 {
+      color: #e50914;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    #productos h2 {
+      color: #e50914;
+      font-size: 26px;
+      text-transform: uppercase;
+      margin-top: 40px;
+    }
+
+    .productos-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25D366;
+      color: #fff;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    .cart-float {
+      position: fixed;
+      bottom: 90px;
+      right: 25px;
+      background-color: #e50914;
+      color: #fff;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      text-decoration: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+
+    .cart-float:hover {
+      transform: scale(1.1);
+    }
+
+    #cart-float-count {
+      background: #000;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 50%;
+      padding: 3px 6px;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.9);
+      text-align: center;
+      padding: 15px;
+      color: #aaa;
+      font-size: 14px;
+      border-top: 1px solid #222;
+      margin-top: 50px;
+    }
+  </style>
 </head>
+
 <body>
-  <!-- Header -->
   <header>
-    <h1>DK Poliz</h1>
+    <h1>DK POLIZ</h1>
     <nav>
-      <a href="#productos">Productos</a>
-      <a href="#promo">Promo del Día</a>
-      <a href="#sobre-nosotros">Sobre Nosotros</a>
-      <a href="#contactanos">Contáctanos</a>
-      <a href="carrito.html">Carrito</a>
-      <a href="login.html">Administrador</a>
+      <a href="index.html">Inicio</a>
+      <a href="sobre-nosotros.html">Nosotros</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="carrito.html">Carrito 🛒 (<span id="cart-count">0</span>)</a>
+      <a href="login.html" class="admin-link" title="Acceso administrador">Administrador 🔑</a>
     </nav>
   </header>
 
-  <!-- Productos -->
-  <section id="productos">
-    <h2>Nuestros Productos</h2>
-    <div class="grid-productos" id="lista-productos"></div>
-  </section>
+  <main>
+    <!-- Sección de bienvenida -->
+    <section id="inicio">
+      <h2>Bienvenidos a DK Poliz</h2>
+      <p>Moda urbana masculina: estilo, actitud y autenticidad en cada prenda 🔥</p>
+    </section>
 
-  <!-- Promo del día -->
-  <section id="promo">
-    <h2>Promo del Día</h2>
-    <div id="promo-dia"></div>
-  </section>
+    <!-- Sección de frase o promoción del día -->
+    <section id="versiculo-diario">
+      <h2>🔥 Promo del día 🔥</h2>
+      <p id="versiculo-texto">Cargando promoción...</p>
+      <small id="versiculo-referencia"></small>
+    </section>
 
-  <!-- Sobre Nosotros -->
-  <section id="sobre-nosotros">
-    <h2>Sobre Nosotros</h2>
-    <p>DK Poliz es tu tienda de ropa urbana masculina, especializada en camisas, buzos y sacos con estilo moderno y calidad premium. Nos apasiona ofrecer prendas únicas que reflejen tu personalidad y estilo.</p>
-  </section>
+    <!-- Sección de productos -->
+    <section id="productos">
+      <h2>Nuestros Productos</h2>
+      <div class="productos-container" id="productos-container">
+        <!-- Productos cargados dinámicamente -->
+      </div>
+    </section>
+  </main>
 
-  <!-- Contáctanos -->
-  <section id="contactanos">
-    <h2>Contáctanos</h2>
-    <form action="https://formspree.io/f/tu_form_id" method="POST">
-      <input type="text" name="nombre" placeholder="Tu nombre" required>
-      <input type="email" name="email" placeholder="Tu correo" required>
-      <textarea name="mensaje" rows="5" placeholder="Tu mensaje" required></textarea>
-      <button type="submit">Enviar</button>
-    </form>
-  </section>
+ 
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 DK Poliz. Todos los derechos reservados.</p>
+  <!-- Botón flotante WhatsApp -->
+  <a href="https://wa.me/573005970933" class="whatsapp-float" target="_blank" title="Chatea con nosotros">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="whatsapp-icon" width="28" height="28">
+      <path fill="#FFFFFF" d="M16.04 2.003c-7.732 0-14 6.268-14 14 0 2.466.639 4.864 1.856 6.992l-1.976 7.196 7.376-1.936A13.89 13.89 0 0 0 16.04 30c7.732 0 14-6.268 14-14s-6.268-13.997-14-13.997zm0 25.593c-2.174 0-4.298-.56-6.156-1.621l-.44-.248-4.38 1.15 1.17-4.265-.288-.44a11.95 11.95 0 0 1-1.845-6.47c0-6.616 5.384-12 12-12s12 5.384 12 12-5.384 12-12 12zm6.676-8.496c-.364-.182-2.146-1.06-2.477-1.178-.331-.12-.573-.182-.816.182-.242.364-.939 1.178-1.15 1.42-.211.242-.422.272-.786.09-.364-.182-1.534-.565-2.922-1.8-1.08-.964-1.81-2.155-2.022-2.52-.211-.364-.023-.56.159-.742.163-.162.364-.422.546-.634.182-.211.242-.364.364-.606.121-.242.06-.455-.03-.637-.09-.182-.816-1.964-1.117-2.685-.294-.707-.595-.612-.816-.624-.211-.01-.455-.012-.698-.012s-.637.09-.97.455c-.331.364-1.273 1.243-1.273 3.03s1.303 3.512 1.485 3.754c.182.242 2.562 3.906 6.204 5.477.868.374 1.544.597 2.07.765.87.276 1.662.237 2.288.144.698-.104 2.146-.876 2.45-1.721.303-.845.303-1.571.212-1.721-.09-.15-.331-.242-.695-.425z"/>
+    </svg>
+  </a>
+
+  <!-- Botón flotante del carrito -->
+  <a href="carrito.html" class="cart-float" title="Ver carrito">
+    🛒
+    <span id="cart-float-count">0</span>
+  </a>
+   <footer>
+    <p>&copy; 2025 DK Poliz - Todos los derechos reservados</p>
   </footer>
 
-  <script src="js/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

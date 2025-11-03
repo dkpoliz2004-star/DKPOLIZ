@@ -4,35 +4,90 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Administrador - DK Poliz</title>
-  <link rel="stylesheet" href="css/estilos.css">
   <style>
-    .btn-volver {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 14px;
-      transition: background 0.3s;
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #000000, #1a1a1a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: white;
     }
 
-    .btn-volver:hover {
+    .login-container {
+      background: #111;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+      width: 350px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .login-container h1 {
+      color: #e50914;
+      margin-bottom: 25px;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #222;
+      color: white;
+    }
+
+    .login-container input::placeholder {
+      color: #aaa;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 12px;
       background-color: #e50914;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-container button:hover {
+      background-color: #b00610;
+    }
+
+    .error {
+      color: #ff4c4c;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .volver {
+      display: inline-block;
+      margin-top: 15px;
+      color: #888;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .volver:hover {
+      color: #e50914;
     }
   </style>
 </head>
 <body>
-  <!-- 🔙 Botón volver al inicio -->
-  <a href="index.html" class="btn-volver">⬅ Volver</a>
 
   <div class="login-container">
-    <h1>Administrador</h1>
-    <input type="text" id="usuario" placeholder="Usuario">
-    <input type="password" id="clave" placeholder="Contraseña">
+    <h1>DK Poliz - Admin</h1>
+    <input type="text" id="usuario" placeholder="Usuario" />
+    <input type="password" id="clave" placeholder="Contraseña" />
     <button onclick="login()">Ingresar</button>
     <p id="error" class="error"></p>
     <a href="index.html" class="volver">← Volver a la página principal</a>
@@ -44,16 +99,22 @@
       const clave = document.getElementById("clave").value.trim();
       const error = document.getElementById("error");
 
+      // Credenciales DK Poliz
       const adminUser = "AdminDK";
       const adminPass = "dkpoliz123*";
 
       if (usuario === adminUser && clave === adminPass) {
         localStorage.setItem("adminLogged", "true");
-        window.location.href = "admin.html";
+        window.location.href = "admin.html"; // Redirige al panel
       } else {
         error.textContent = "Usuario o contraseña incorrectos.";
       }
     }
+
+    // Permitir login con Enter
+    document.addEventListener("keypress", function(e) {
+      if(e.key === "Enter") login();
+    });
   </script>
 </body>
 </html>
